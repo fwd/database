@@ -12,8 +12,6 @@ module.exports = (plugin, config) => {
 	}
 
 	if (plugin === 'firebase') {
-		const firebase = require('firebase/app');
-			  require('firebase/database');
 		return require('./plugin/firebase')(config)
 	}
 
