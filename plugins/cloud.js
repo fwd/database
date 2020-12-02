@@ -1,3 +1,4 @@
+const _ = require('lodash')
 const server = require('@fwd/server')
 
 const base_url = 'https://data.forward.miami'
@@ -8,10 +9,15 @@ module.exports = (config) => {
 		get(key, query, database) {
 			return this.find(key, query, database)
 		},
+		findOne(key, query, database) {
+			return new Promise(async (resolve, reject) => {
+				resolve( _.first( await this.find(key, query, database) ) )
+			})
+		},
 		find(key, query, database) {
 			return new Promise(async (resolve, reject) => {
 				var qs = Object.keys(query || {}).map(key => `${key}=${query[key]}`).join('&');
-				var response = await server.http.get(`${base_url}/${key}?apiKey=${config.apikey}${qs}`)
+				var response = await server.http.get(`${base_url}/${key}?apiKey=${config.apikey}&${qs}`)
 				resolve(response.data.response)
 			})
 		},
