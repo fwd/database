@@ -4,15 +4,15 @@ module.exports = (plugin, config) => {
 	plugin = plugin || ''
 
 	if (plugin === 'cloud') {
-		return require('./plugin/cloud')(config)
+		return require('./plugins/cloud')(config)
 	}
 
 	if (plugin === 'local') {
-		return require('./plugin/local')(config)
+		return require('./plugins/local')(config)
 	}
 
 	if (plugin === 'firebase') {
-		return require('./plugin/firebase')(config)
+		return require('./plugins/firebase')(config)
 	}
 
 	console.log('Plugin not supported, yet.')
