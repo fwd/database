@@ -29,13 +29,13 @@ module.exports = (config) => {
 		},
 		set(key, database) {
 			return new Promise(async (resolve, reject) => {
-				var response = await server.http.put(`${base_url}/${key}?apiKey=${config.apikey}`,)
+				var response = await server.http.put(`${base_url}/${key}?apiKey=${config.apikey}`)
 				resolve( response.data.response )
 			})
 		},
 		remove(key, database) {
 			return new Promise(async (resolve, reject) => {
-				var response = await server.http.delete(`${base_url}/${path}?apiKey=${config.apikey}`,)
+				var response = await server.http.delete(`${base_url}/${path}?apiKey=${config.apikey}`)
 				resolve( response.data.response )
 			})
 		},
