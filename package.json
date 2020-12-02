@@ -1,12 +1,8 @@
 {
   "name": "@fwd/database",
-  "version": "0.0.1",
-  "description": "A Node.js library that simplifies persistent storage.",
+  "version": "0.0.2",
+  "description": "A NodeJS library to simplify persistent storage.",
   "main": "index.js",
-  "publishConfig": { 
-    "registry": "https://npm.pkg.github.com/" 
-  },
-  "scripts": {},
   "author": "Forward Miami <hello@forward.miami>",
   "license": "MIT",
   "homepage": "https://github.com/fwd/database",
@@ -18,6 +14,7 @@
     "url": "https://github.com/fwd/database/deploy/issues"
   },
   "dependencies": {
+    "@fwd/server": "^1.0.26",
     "firebase": "^7.15.5",
     "lowdb": "^1.0.0"
   }
