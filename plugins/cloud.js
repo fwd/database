@@ -10,7 +10,7 @@ module.exports = (config) => {
 		},
 		find(key, query, database) {
 			return new Promise(async (resolve, reject) => {
-				var qs = Object.keys(query || {}).map(key => `${key}=${params[key]}`).join('&');
+				var qs = Object.keys(query || {}).map(key => `${key}=${query[key]}`).join('&');
 				var response = await server.http.get(`${base_url}/${key}?apiKey=${config.apikey}${qs}`)
 				resolve(response.data.response)
 			})
