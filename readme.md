@@ -23,7 +23,7 @@ yarn add @fwd/database
 const database = require('@fwd/database')
 
 const firebaseDatabase = database('local', {
-  domain: "file.json"
+  database: "database.json"
 })
 
 ```
@@ -41,8 +41,7 @@ const firebaseDatabase = database('firebase', {
   projectId: "",
   storageBucket: "",
   messagingSenderId: "",
-  appId: "",
-  domain: ""
+  appId: ""
 })
 
 ```
