@@ -1,5 +1,6 @@
+const _ = require('lodash');
 const firebase = require('firebase/app');
-require('firebase/database');
+				 require('firebase/database');
 
 module.exports = (config) => {
 
@@ -8,17 +9,22 @@ module.exports = (config) => {
 	var database = firebase.database()
 
 	return {
-		get: (key) => {
-			return new Promise((resolve, reject) => {
-				database.ref(`${config.domain}/${key}`).once('value').then(function(snapshot) {
-					resolve(snapshot.val())
-				});
-			})
+		findOne: (key, query) => {
+			return _.first( this.find(key, query) )
+		},
+		findFirst: (key, query) => {
+			return _.first( this.find(key, query) )
+		},
+		findLast: (key, query) => {
+			return _.last( this.find(key, query) )
+		},
+		get: (key, query) => {
+			return this.find(key, query)
 		},
 		find: (key, query) => {
 			return new Promise((resolve, reject) => {
 
-				database.ref(`${config.domain}/${key}`).once('value').then(function(snapshot) {
+				database.ref(key).once('value').then(function(snapshot) {
 
 					var results = []
 
@@ -55,7 +61,7 @@ module.exports = (config) => {
 		},
 		set: (key, value) => {
 			return new Promise((resolve, reject) => {
-				database.ref(`${config.domain}/${key}`).set(value, function(error) {
+				database.ref(key).set(value, function(error) {
 				    if (!error) {
 				      resolve(value)
 				    }
@@ -77,7 +83,7 @@ module.exports = (config) => {
 		},
 		update: (key, id, update) => {
 			return new Promise((resolve, reject) => {
-				database.ref(`${config.domain}/${key}/${id}`).update(update, function(error) {
+				database.ref(`${key}/${id}`).update(update, function(error) {
 				    if (!error) {
 				      resolve(update)
 				    }

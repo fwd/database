@@ -1,6 +1,6 @@
 {
   "name": "@fwd/database",
-  "version": "0.0.7",
+  "version": "0.0.10",
   "description": "A NodeJS library to simplify persistent storage.",
   "main": "index.js",
   "author": "Forward Miami <hello@forward.miami>",
@@ -11,7 +11,7 @@
     "url": "git@github.com:fwd/database.git"
   },
   "bugs": {
-    "url": "https://github.com/fwd/database/deploy/issues"
+    "url": "https://github.com/fwd/database/issues"
   },
   "dependencies": {
     "@fwd/server": "^1.0.26",
