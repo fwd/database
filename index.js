@@ -8,7 +8,7 @@ module.exports = (plugin, config) => {
 			if (!config) {
 				return console.warn('Database Error: Missing config parameter.')
 			}
-			return require('./plugins/cloud')(config)
+			return require('./plugins/forward')(config)
 		}
 
 		if (plugin === 'local') {
