@@ -51,7 +51,9 @@ module.exports = (config) => {
 
 		set(key, update) {
 			return new Promise(async (resolve, reject) => {
-				var response = await server.http.put(`${base_url}/${key}?apiKey=${config.apikey}`, update)
+				var response = await server.http.put(`${base_url}/${key}?apiKey=${config.apikey}`, {
+					change: update
+				})
 				resolve( response.data.response )
 			})
 		},
