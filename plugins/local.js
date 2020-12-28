@@ -29,7 +29,7 @@ module.exports = (config) => {
 				const adapter = new FileAsync(`${path}${database}`)
 				low(adapter).then((db) => {	
 					var results = db.get(key).value()
-					if (!query) {
+					if (!query || !Array.isArray(results)) {
 						resolve(results)
 						return
 					}
