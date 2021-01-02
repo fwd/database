@@ -58,9 +58,9 @@ module.exports = (config) => {
 			})
 		},
 
-		remove(key) {
+		remove(key, id) {
 			return new Promise(async (resolve, reject) => {
-				var response = await server.http.delete(`${base_url}/${path}?apiKey=${config.apikey}`)
+				var response = await server.http.delete(`${base_url}/${key}/${id}?apiKey=${config.apikey}`)
 				resolve( response.data.response )
 			})
 		},
