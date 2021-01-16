@@ -4,7 +4,10 @@ const FileAsync = require('lowdb/adapters/FileAsync')
 
 module.exports = (config) => {
 
+	config = config || {}
+
 	const path = config.base_path ? config.base_path : './'
+	
 	const database = config.database ? config.database.replace('.json', '') + '.json' : 'database.json'
 
 	return {

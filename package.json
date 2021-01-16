@@ -1,6 +1,6 @@
 {
   "name": "@fwd/database",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A NodeJS library to simplify persistent storage.",
   "main": "index.js",
   "author": "Forward Miami <hello@forward.miami>",
