@@ -2,10 +2,6 @@
 
 > A Node.js library that simplifies persistent storage.
 
-## Description
-
-This module exposes a function that simplifies NodeJS data storage. 
-
 ## Install
 
 ```sh
