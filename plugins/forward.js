@@ -3,7 +3,13 @@ const server = require('@fwd/server')
 
 module.exports = (config) => {
 
+	config = config || {}
+
 	const base_url = config.base_url || 'https://data.forward.miami'
+	
+	const api_key = config.api_key || config.apikey || config.key
+
+	server.http.defaults.headers.common = { "Authorization": api_key }
 
 	return {
 
@@ -27,31 +33,32 @@ module.exports = (config) => {
 			})
 		},
 
+
 		find(key, query) {
 			return new Promise(async (resolve, reject) => {
 				var qs = Object.keys(query || {}).map(key => `${key}=${query[key]}`).join('&');
-				var response = await server.http.get(`${base_url}/${key}?apiKey=${config.apikey}&${qs}`)
+				var response = await server.http.get(`${base_url}/${key}${ qs ? '?' + qs : '' }`)
 				resolve(response.data.response)
 			})
 		},
 
 		create(key, value) {
 			return new Promise(async (resolve, reject) => {
-				var response = await server.http.post(`${base_url}/${key}?apiKey=${config.apikey}`, value)
+				var response = await server.http.post(`${base_url}/${key}`, value)
 				resolve( response.data.response )
 			})
 		},
 
 		update(key, id, update) {
 			return new Promise(async (resolve, reject) => {
-				var response = await server.http.post(`${base_url}/${key}/${id}?apiKey=${config.apikey}`, update)
+				var response = await server.http.post(`${base_url}/${key}/${id}`, update)
 				resolve( response.data.response )
 			})
 		},
 
 		set(key, update) {
 			return new Promise(async (resolve, reject) => {
-				var response = await server.http.put(`${base_url}/${key}?apiKey=${config.apikey}`, {
+				var response = await server.http.put(`${base_url}/${key}`, {
 					change: update
 				})
 				resolve( response.data.response )
@@ -60,7 +67,7 @@ module.exports = (config) => {
 
 		remove(key, id) {
 			return new Promise(async (resolve, reject) => {
-				var response = await server.http.delete(`${base_url}/${key}/${id}?apiKey=${config.apikey}`)
+				var response = await server.http.delete(`${base_url}/${key}/${id}`)
 				resolve( response.data.response )
 			})
 		},
