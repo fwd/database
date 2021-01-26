@@ -1,4 +1,5 @@
 const _ = require('lodash')
+const server = require('@fwd/server')
 const low = require('lowdb')
 const FileAsync = require('lowdb/adapters/FileAsync')
 
