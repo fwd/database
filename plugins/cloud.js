@@ -6,7 +6,7 @@ module.exports = (config) => {
         baseURL: (config.base_url || 'https://data.forward.miami'),
         headers: {
             "Source": "@fwd/database@0.1.10",
-            "Authorization": config.api_key || config.apikey || config.key
+            "Authorization": config.apiKey || config.api_key || config.apikey || config.key
         }
     })
     function parseKey(key) {
