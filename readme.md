@@ -5,14 +5,12 @@
 ## Install
 
 ```sh
-npm install @fwd/database
-# or
-yarn add @fwd/database
+npm install fwd/database
 ```
 
 ## Usage
 
-### JSON File
+### Local JSON File
 
 ```js
 
@@ -24,20 +22,14 @@ const firebaseDatabase = database('local', {
 
 ```
 
-### Firebase Realtime Database
+### Cloud Stored JSON
 
 ```js
 
 const database = require('@fwd/database')
 
-const firebaseDatabase = database('firebase', {
-  apiKey: "",
-  authDomain: "",
-  databaseURL: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: ""
+const firebaseDatabase = database('cloud', {
+  key: "PRIVATE-XXXXXXXXXXXXXXXXXXXXXXXXXXX"
 })
 
 ```
