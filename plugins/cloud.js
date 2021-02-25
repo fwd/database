@@ -2,7 +2,7 @@ const _ = require('lodash')
 const server = require('@fwd/server')
 module.exports = (config) => {
     config = config || {}
-    var http = http.create({
+    var http = server.http.create({
         baseURL: (config.base_url || 'https://data.forward.miami'),
         headers: {
             "Source": "@fwd/database@0.1.10",
