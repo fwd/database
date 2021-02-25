@@ -1,6 +1,6 @@
 <h1 align="center">@fwd/database 💿</h1>
 
-> A NodeJS package that exposes an simlpe API for persistent storage. Support for local and remote.
+> A NodeJS package that exposes a rudimentary DaaS (database as a service) for local and cloud JSON storage.
 
 ## Install
 
@@ -50,10 +50,6 @@ const database = require('@fwd/database')('cloud', {
 ```
 
 Our cloud JSON storage service is in private beta. If you'd like to use, please contact us. 
-
-### MySQL, SQLite, PostgreSQL, Firebase
-
-Coming Soon
 
 ## Author
 
