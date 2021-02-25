@@ -10,13 +10,7 @@ npm install fwd/database
 
 ## Usage
 
-### Local JSON File
-
 ```js
-
-const database = require('@fwd/database')('local', {
-    database: "database.json"
-})
 
 ;(async () => {
   	
@@ -35,7 +29,17 @@ const database = require('@fwd/database')('local', {
 
 ```
 
-### Cloud Stored JSON
+### Database Types - Local
+
+```js
+
+const database = require('@fwd/database')('local', {
+    database: "database.json"
+})
+
+```
+
+### Database Types - Cloud
 
 ```js
 
@@ -47,6 +51,13 @@ const database = require('@fwd/database')('cloud', {
 
 Our cloud JSON storage service is in private beta. If you'd like to use, please contact us. 
 
+### Database Types - MySQL,SQLite,PostgreSQL,Firebase
+
+Coming Soon
+
+### Database Types - 
+
+Coming Soon
 
 ## Author
 
