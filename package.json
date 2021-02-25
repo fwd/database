@@ -1,6 +1,6 @@
 {
   "name": "@fwd/database",
-  "version": "0.1.5",
+  "version": "0.1.10",
   "description": "A NodeJS library to simplify persistent storage.",
   "main": "index.js",
   "author": "Forward Miami <hello@forward.miami>",
@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@fwd/server": "^1.0.26",
-    "firebase": "^7.15.5",
     "lowdb": "^1.0.0"
   }
 }
