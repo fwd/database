@@ -51,11 +51,7 @@ const database = require('@fwd/database')('cloud', {
 
 Our cloud JSON storage service is in private beta. If you'd like to use, please contact us. 
 
-### Database Types - MySQL,SQLite,PostgreSQL,Firebase
-
-Coming Soon
-
-### Database Types - 
+### MySQL,SQLite,PostgreSQL,Firebase
 
 Coming Soon
 
