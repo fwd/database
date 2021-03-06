@@ -7,11 +7,13 @@ module.exports = (config) => {
 
 	config = config || {}
 	
-	const base_path = config.database || config.filename || config.base_path
+	const base_path = config.namespace || config.filepath || config.base_path
+	
+	const database_name = config.database || config.filename
 
 	const path = base_path ? base_path : './'
 	
-	const database = config.database ? config.database.replace('.json', '') + '.json' : 'database.json'
+	const database = database_name ? database_name.replace('.json', '') + '.json' : 'database.json'
 
 	return {
 		get(key, query) {
