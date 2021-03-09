@@ -7,7 +7,7 @@ module.exports = (config) => {
 
 	config = config || {}
 	
-	const base_path = config.namespace || config.filepath || config.base_path
+	const base_path = config.filepath || config.base_path || config.basepath
 	
 	const database_name = config.database || config.filename
 
