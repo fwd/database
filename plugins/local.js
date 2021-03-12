@@ -59,10 +59,11 @@ module.exports = (config) => {
 		create(key, value) {
 			return new Promise((resolve) => {
 				const adapter = new FileAsync(`${path}${database}`)
-				low(adapter).then((db) => {	
+				low(adapter).then(async (db) => {	
 					var defaults = {}
 					if (!db.get(key).value()) {
 						defaults[key] = []
+						await db.set(key, []).write()
 					}
 					db.defaults(defaults).write()
 					if (typeof value === "object" && !value.id) {
