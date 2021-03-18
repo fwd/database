@@ -5,7 +5,8 @@ module.exports = (config) => {
     var http = server.http.create({
         baseURL: (config.base_url || 'https://data.forward.miami'),
         headers: {
-            "Source": require('../package.json').version,
+            "Package-Name": require('../package.json').name,
+            "Package-Version": require('../package.json').version,
             "Authorization": config.apiKey || config.api_key || config.apikey || config.key
         }
     })
