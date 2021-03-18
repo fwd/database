@@ -4,6 +4,13 @@ module.exports = (plugin, config) => {
 
 	try	{
 
+		if (plugin === 'miami') {
+			if (!config) {
+				return console.warn('Database Error: Missing config parameter.')
+			}
+			return require('./plugins/miami')(config)
+		}
+
 		if (plugin === 'cloud' || plugin === 'forward') {
 			if (!config) {
 				return console.warn('Database Error: Missing config parameter.')
