@@ -47,9 +47,7 @@ module.exports = (config) => {
         },
         set(key, update) {
             return new Promise(async (resolve, reject) => {
-                var response = await http.put(`/data/${key}`, {
-                    change: update
-                })
+                var response = await http.put(`/data/${key}`, update)
                 resolve(response.data.response)
             })
         },
