@@ -27,6 +27,13 @@ module.exports = (config) => {
                 resolve(_.first(await this.find(key, query)))
             })
         },
+        paginate(key, query) {
+            return new Promise(async (resolve, reject) => {
+                var qs = Object.keys(query || {}).map(key => `${key}=${query[key]}`).join('&');
+                var response = await http.get(`/data/${key === '/' ? '' : key}${ qs ? '?' + qs : '' }`)
+                resolve(response.data.response)
+            })
+        },
         find(key, query) {
             return new Promise(async (resolve, reject) => {
                 var qs = Object.keys(query || {}).map(key => `${key}=${query[key]}`).join('&');
