@@ -31,7 +31,7 @@ module.exports = (config) => {
             return new Promise(async (resolve, reject) => {
                 var qs = Object.keys(query || {}).map(key => `${key}=${query[key]}`).join('&');
                 var response = await http.get(`/data/${key === '/' ? '' : key}${ qs ? '?' + qs : '' }`)
-                resolve(response.data.response)
+                resolve(response.data.response.data)
             })
         },
         create(key, value) {
