@@ -45,9 +45,9 @@ function list(path) {
 }
 
 function read(path) {
-	if (server.cache(path)) {
-		return server.cache(path)
-	}
+	// if (server.cache(path)) {
+	// 	return server.cache(path)
+	// }
 	return JSON.parse(fs.readFileSync(path).toString()) 
 }
 
@@ -60,7 +60,7 @@ function write(path, value) {
 			    	resolve(false)
 			        return 
 			    }
-				server.cache(path, value)
+				// server.cache(path, value)
 			    resolve(value)
 			})
 		} catch(err) {
@@ -255,10 +255,12 @@ module.exports = (config) => {
 				var files = await walk(key)
 
 				files = files.map(a => {
-					var data = read(a)
-					server.cache(a, data)
-					return data
+					try {
+						return read(a)
+					} catch(e) {}
 				})
+
+				files = files.filter(a => a)
 
 				files = _.sortBy(files, 'created_at').reverse()
 
@@ -355,7 +357,6 @@ module.exports = (config) => {
 			
 		},
 		update(model, id, update) {
-
 			return new Promise(async (resolve, reject) => {
 
 				var namespace = `${config.path}/${config.namespace}`
@@ -397,7 +398,6 @@ module.exports = (config) => {
 				resolve( await write(key, item) )
 
 			})
-
 		},
 		set(key, value) {
 
