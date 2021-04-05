@@ -48,7 +48,7 @@ function read(path) {
 		   try {
 		   	resolve( JSON.parse(data.toString()) )
 		   } catch(e) {
-		   	console.log(`${path} was malformed`)
+		   	console.log(`${path} was malformed.`)
 		   	resolve( require('dirty-json').parse(data.toString()) )
 		   }
 		})
