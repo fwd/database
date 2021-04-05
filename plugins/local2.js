@@ -249,7 +249,7 @@ module.exports = (config) => {
 
 				if (query && query.id && await check(`${key}/${query.id}`) && fs.lstatSync(`${key}/${query.id}`).isFile() ) {
 					console.log("found it faster!")
-					resolve(read(``${key}/${query.id}``))
+					resolve(read(`${key}/${query.id}`))
 					return
 				}
 
