@@ -404,7 +404,7 @@ module.exports = (config) => {
 
 			})
 		},
-		set(key, value) {
+		set(model, value) {
 
 			return new Promise(async (resolve, reject) => {
 
