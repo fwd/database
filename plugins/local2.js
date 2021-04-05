@@ -98,7 +98,7 @@ module.exports = (config) => {
 	config = config || {}
 	
 	config.path = config.path || config.base_path || '.data'
-	
+
 	config.namespace = config.namespace || '_default'
 
 	return {
@@ -248,13 +248,6 @@ module.exports = (config) => {
 				}
 
 				var files = await walk(key)
-
-				if (!files.length) {
-					return {
-						error: true,
-						message: "Namespace is empty."
-					}
-				}
 
 				files = files.map(a => {
 					var data = read(a)
