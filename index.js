@@ -4,10 +4,11 @@ module.exports = (plugin, config) => {
 
 	try	{
 
-		if (plugin === 'local2') {
-			if (!config) {
-				return console.warn('Database Error: Missing config parameters.')
-			}
+		// if (plugin === 'local') {
+		// 	return require('./plugins/local')(config)
+		// }
+
+		if (plugin === 'local') {
 			return require('./plugins/local2')(config)
 		}
 
@@ -23,10 +24,6 @@ module.exports = (plugin, config) => {
 				return console.warn('Database Error: Missing config parameters.')
 			}
 			return require('./plugins/cloud')(config)
-		}
-
-		if (plugin === 'local') {
-			return require('./plugins/local')(config)
 		}
 
 		if (plugin === 'firebase') {

@@ -98,6 +98,7 @@ module.exports = (config) => {
 	config = config || {}
 	
 	config.path = config.path || config.base_path || '.data'
+	
 	config.namespace = config.namespace || '_default'
 
 	return {
@@ -232,10 +233,7 @@ module.exports = (config) => {
 				}
 
 				if (!await check(key)) {
-					reject({
-						code: 404,
-						message: "Namespace does not exists.",
-					})
+					resolve([])
 					return 
 				}
 
