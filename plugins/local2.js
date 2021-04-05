@@ -37,18 +37,23 @@ function list(path) {
 		  }
 		} catch(err) {
 		  console.error(err)
-		  resolve({
-		  	error: true
-		  })
+		  resolve()
 		}
 	}) 
 }
 
 function read(path) {
-	// if (server.cache(path)) {
-	// 	return server.cache(path)
-	// }
-	return JSON.parse(fs.readFileSync(path).toString()) 
+	return new Promise(async (resolve, reject) => {
+		fs.readFile(path, function (err, data) {
+		   try {
+		   	resolve( JSON.parse(data.toString()) )
+		   } catch(e) {
+		   	// malformed json
+		   	console.log("malformed")
+		   	resolve( require('dirty-json').parse(data.toString()) )
+		   }
+		})
+	})
 }
 
 function write(path, value) {
@@ -60,7 +65,6 @@ function write(path, value) {
 			    	resolve(false)
 			        return 
 			    }
-				// server.cache(path, value)
 			    resolve(value)
 			})
 		} catch(err) {
@@ -73,12 +77,16 @@ function write(path, value) {
 function walk(dir) {
     var results = [];
     var list = fs.readdirSync(dir);
+    var ignore = [
+    	'.DS_Store'
+    ]
     list.forEach(function(file) {
+    	if (ignore.includes(file)) return
         file = dir + '/' + file;
-        var stat = fs.statSync(file);
+        var stat = fs.statSync(file)
         if (stat && stat.isDirectory()) { 
             results = results.concat(walk(file));
-        } else { 
+        } else {
             results.push(file);
         }
     });
@@ -238,27 +246,25 @@ module.exports = (config) => {
 				}
 
 				if (await check(`${key}`) && fs.lstatSync(key).isFile() ) {
-					resolve(read(`${key}`))
+					resolve( await read(`${key}`))
 					return
 				}
 
 				if (await check(`${key}/_default`)) {
-					resolve( read(`${key}/_default`) )
+					resolve( await read(`${key}/_default`) )
 					return
 				}
 
 				if (query && query.id && await check(`${key}/${query.id}`) && fs.lstatSync(`${key}/${query.id}`).isFile() ) {
-					resolve([read(`${key}/${query.id}`)])
+					resolve([ await read(`${key}/${query.id}`)])
 					return
 				}
 
 				var files = await walk(key)
 
-				files = files.map(a => {
-					try {
-						return read(a)
-					} catch(e) {}
-				})
+				for (var i in files) {
+					files[i] = await read(files[i])
+				}
 
 				files = files.filter(a => a)
 
@@ -389,7 +395,7 @@ module.exports = (config) => {
 					return
 				}
 
-				var item = read(key)
+				var item = await read(key)
 
 				Object.keys(update).map(key => {
 					item[key] = update[key]
