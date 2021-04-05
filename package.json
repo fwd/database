@@ -14,7 +14,9 @@
     "url": "https://github.com/fwd/database/issues"
   },
   "dependencies": {
-    "@fwd/server": "^1.0.26",
-    "lowdb": "^1.0.0"
+    "@fwd/server": "github:fwd/server",
+    "lodash": "^4.17.21",
+    "lowdb": "^1.0.0",
+    "rimraf": "^3.0.2"
   }
 }
