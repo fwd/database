@@ -51,9 +51,9 @@ function list(path) {
 
 function read(path) {
 	return new Promise(async (resolve, reject) => {
-		if (cache(path)) return resolve(cache(path))
+		// if (cache(path)) return resolve(cache(path))
 		fs.readFile(path, 'utf8', function (error, data) {
-			var string = data.toString()
+		    var string = data.toString()
 		    if (error || !string) {
 		    	console.log( "Error", path )
 		    	resolve()
@@ -61,10 +61,8 @@ function read(path) {
 		    }
 		    try {	
 		    	resolve( JSON.parse( string ) )
-			cache(path, JSON.parse( string ))
 		    } catch(e) {
 		    	resolve( dirtyJSON.parse(string) )
-			cache(path, dirtyJSON.parse(string))
 		    }
 		})
 	})
@@ -75,7 +73,6 @@ function write(path, value) {
 		fs.writeFile(path, JSON.stringify(value), function(err) {
 		    if (err) console.log("Error", error)
 		    resolve(value)
-		    cache(path, null)
 		})
 	}) 
 }
