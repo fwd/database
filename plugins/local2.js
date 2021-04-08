@@ -44,14 +44,13 @@ function list(path) {
 
 function read(path) {
 	return new Promise(async (resolve, reject) => {
-		fs.readFile(path, function (err, data) {
-		   try {
-		   	resolve( JSON.parse(data.toString()) )
-		   } catch(e) {
-		   	console.log(`${path} was malformed.`)
-		   	resolve( require('dirty-json').parse(data.toString()) )
-		   }
-		})
+		var data = fs.readFileSync(path).toString()
+		try {
+			resolve( JSON.parse(data) )
+		} catch(e) {
+			console.log(`Database: ${path} was malformed.`)
+			resolve( require('dirty-json').parse(data) )
+		}
 	})
 }
 
