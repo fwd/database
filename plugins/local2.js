@@ -63,7 +63,11 @@ function read(path, cached) {
             try {
                 resolve(JSON.parse(string))
             } catch (e) {
-                resolve(dirtyJSON.parse(string))
+                try {
+                    resolve(dirtyJSON.parse(string))
+                } catch(e) {
+                    resolve({})
+                }
             }
         })
     })
