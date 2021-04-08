@@ -53,9 +53,7 @@ function list(path) {
 async function writing(path) {
   return await new Promise(resolve => {
     const interval = setInterval(() => {
-      console.log("Waiting...")
       if (!saving) {
-      	console.log("Done.")
         clearInterval(interval)
         resolve()
       }
