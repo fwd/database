@@ -61,8 +61,10 @@ function read(path) {
 		    }
 		    try {	
 		    	resolve( JSON.parse( string ) )
+			cache(path, JSON.parse( string ))
 		    } catch(e) {
 		    	resolve( dirtyJSON.parse(string) )
+			cache(path, dirtyJSON.parse(string))
 		    }
 		})
 	})
@@ -73,7 +75,7 @@ function write(path, value) {
 		fs.writeFile(path, JSON.stringify(value), function(err) {
 		    if (err) console.log("Error", error)
 		    resolve(value)
-			cache(path, value)
+		    cache(path, null)
 		})
 	}) 
 }
