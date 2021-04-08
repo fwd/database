@@ -1,8 +1,16 @@
 const fs = require('fs')
 const _ = require('lodash')
 const path = require('path')
-const server = require('@fwd/server')
-const rimraf = require("rimraf")
+const dirtyJSON = require('dirty-json')
+
+let saving = false
+
+function uuid() {
+	return `xxxxxxxxxxx`.replace(/[xy]/g, function(c) {
+		var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+		return v.toString(16)
+	})
+}
 
 function paginate(array, page_size, page_number) {
 	return array.slice((page_number - 1) * page_size, page_number * page_size);
@@ -42,42 +50,51 @@ function list(path) {
 	}) 
 }
 
+async function writing(path) {
+  return await new Promise(resolve => {
+    const interval = setInterval(() => {
+      console.log("Waiting...")
+      if (!saving) {
+      	console.log("Done.")
+        clearInterval(interval)
+        resolve()
+      }
+    }, 5)
+  })
+}
+
 function read(path) {
+
 	return new Promise(async (resolve, reject) => {
-		var data = fs.readFileSync(path).toString()
-		try {
-			resolve( JSON.parse(data) )
-		} catch(e) {
-			console.log(`Database: ${path} was malformed.`)
-			resolve( require('dirty-json').parse(data) )
-		}
+		await writing()
+		fs.readFile(path, 'utf8', function (error, data) {
+			var string = data.toString()
+		    if (error) console.log( "Error", error )
+		    try {	
+		    	resolve( JSON.parse( string ) )
+		    } catch(e) {
+		    	console.log(`Error: ${path} was malformed.`)
+		    	resolve( dirtyJSON.parse(string) )
+		    }
+		})
 	})
 }
 
 function write(path, value) {
 	return new Promise(async (resolve, reject) => {
-		try {
-			fs.writeFile(path, JSON.stringify(value), function(err) {
-			    if (err) {
-			        console.log(err);
-			    	resolve(false)
-			        return 
-			    }
-			    resolve(value)
-			})
-		} catch(err) {
-		  console.error(err)
-		  resolve(false)
-		}
+		saving = true
+		fs.writeFile(path, JSON.stringify(value), function(err) {
+		    saving = false
+		    if (err) console.log("Error", error)
+		    resolve(value)
+		})
 	}) 
 }
 
 function walk(dir) {
     var results = [];
     var list = fs.readdirSync(dir);
-    var ignore = [
-    	'.DS_Store'
-    ]
+    var ignore = [ '.DS_Store' ]
     list.forEach(function(file) {
     	if (ignore.includes(file)) return
         file = dir + '/' + file;
@@ -342,7 +359,7 @@ module.exports = (config) => {
 
 					var item = items[i]
 
-					if (!item.id) item.id = server.uuid(true)
+					if (!item.id) item.id = uuid()
 					if (!item.created_at) item.created_at = new Date().getTime()
 
 					if (!allowed(`${model}`, namespace)) {
