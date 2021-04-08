@@ -51,11 +51,7 @@ function list(path) {
 
 function read(path) {
 	return new Promise(async (resolve, reject) => {
-		if (cache(path)) {
-			console.log( cache(path).usage.requests )
-			resolve(cache(path))
-			return
-		}
+		if (cache(path)) return resolve(cache(path))
 		fs.readFile(path, 'utf8', function (error, data) {
 			var string = data.toString()
 		    if (error || !string) {
