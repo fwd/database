@@ -50,9 +50,9 @@ function list(path) {
     })
 }
 
-function read(path) {
+function read(path, cached) {
     return new Promise(async (resolve, reject) => {
-        if (cache(path)) return resolve(cache(path))
+        if (!cached && cache(path)) return resolve(cache(path))
         fs.readFile(path, 'utf8', function(error, data) {
             var string = data.toString()
             if (error || !string) {
@@ -319,8 +319,7 @@ module.exports = (config) => {
                     })
                     return
                 }
-                cache(key, null) // important! flush cache
-                var item = await read(key)
+                var item = await read(key, true)
                 Object.keys(update).map(key => {
                     item[key] = update[key]
                 })
@@ -355,7 +354,6 @@ module.exports = (config) => {
                     })
                     return
                 }
-                cache(key, null) // impotant! flush cache
                 if (Array.isArray(value) && !value.length) {
                     resolve(fs.unlink(key, function() {}))
                 } else {
