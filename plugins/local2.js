@@ -1,9 +1,8 @@
 const fs = require('fs')
 const _ = require('lodash')
 const path = require('path')
+const cache = require('@fwd/cache')
 const dirtyJSON = require('dirty-json')
-
-let saving = false
 
 function uuid() {
 	return `xxxxxxxxxxx`.replace(/[xy]/g, function(c) {
@@ -50,28 +49,23 @@ function list(path) {
 	}) 
 }
 
-async function writing(path) {
-  return await new Promise(resolve => {
-    const interval = setInterval(() => {
-      if (!saving) {
-        clearInterval(interval)
-        resolve()
-      }
-    }, 5)
-  })
-}
-
 function read(path) {
-
 	return new Promise(async (resolve, reject) => {
-		await writing()
+		if (cache(path)) {
+			console.log( cache(path).usage.requests )
+			resolve(cache(path))
+			return
+		}
 		fs.readFile(path, 'utf8', function (error, data) {
 			var string = data.toString()
-		    if (error) console.log( "Error", error )
+		    if (error || !string) {
+		    	console.log( "Error", path )
+		    	resolve()
+		    	return
+		    }
 		    try {	
 		    	resolve( JSON.parse( string ) )
 		    } catch(e) {
-		    	console.log(`Error: ${path} was malformed.`)
 		    	resolve( dirtyJSON.parse(string) )
 		    }
 		})
@@ -80,11 +74,10 @@ function read(path) {
 
 function write(path, value) {
 	return new Promise(async (resolve, reject) => {
-		saving = true
 		fs.writeFile(path, JSON.stringify(value), function(err) {
-		    saving = false
 		    if (err) console.log("Error", error)
 		    resolve(value)
+			cache(path, value)
 		})
 	}) 
 }
