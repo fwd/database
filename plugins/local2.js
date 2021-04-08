@@ -380,6 +380,7 @@ module.exports = (config) => {
                     })
                     return
                 }
+                cache(key, null) // flush cache
                 fs.unlink(key, function() {})
                 resolve("Ok")
             })
