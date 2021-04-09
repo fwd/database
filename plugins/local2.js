@@ -259,9 +259,7 @@ module.exports = (config) => {
                 }
                 var key = `${namespace}/${model}`
                 if (!await check(key)) {
-                    fs.mkdirSync(key, {
-                        recursive: true
-                    })
+                    fs.mkdirSync(key, { recursive: true })
                 }
                 if (!allowed(`${model}`, namespace)) {
                     reject({
@@ -348,7 +346,7 @@ module.exports = (config) => {
                     })
                 }
                 if (!await check(key)) {
-                    fs.mkdirSync(key)
+                    fs.mkdirSync(key, { recursive: true })
                 }
                 var key = `${config.path}/${config.namespace}/${model}/_default`
                 if (!allowed(`${model}`, namespace)) {
