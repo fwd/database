@@ -2,63 +2,70 @@ const _ = require('lodash')
 const server = require('@fwd/server')
 module.exports = (config) => {
     config = config || {}
-    var http = server.http.create({
-        baseURL: (config.base_url || 'https://data.forward.miami'),
+    var package = require('../package.json')
+    var headers = {
+        baseURL: (config.base_url || 'https://json.miami'),
         headers: {
-            "Source": "@fwd/database@0.1.10",
-            "Authorization": config.apiKey || config.api_key || config.apikey || config.key
+             "Authorization": config.apiKey || config.api_key || config.apikey || config.key
         }
-    })
-    function parseKey(key) {
-        return key ? `${key.split('/')[0]}/${(key.split('/')[1] || 'default')}` : key
     }
+    if (config.telemetry) {
+        headers.headers["Package-Name"] = package.name
+        headers.headers["Package-Version"] = package.version
+    }
+    var http = server.http.create(headers)
     return {
         get(key, query) {
-            return this.find(parseKey(key), query)
+            return this.find(key, query)
         },
         findFirst(key, query) {
-            return this.findOne(parseKey(key), query)
+            return this.findOne(key, query)
         },
         findLast(key, query) {
             return new Promise(async (resolve, reject) => {
-                resolve(_.last(await this.find(parseKey(key), query)))
+                resolve(_.last(await this.find(key, query)))
             })
         },
         findOne(key, query) {
             return new Promise(async (resolve, reject) => {
-                resolve(_.first(await this.find(parseKey(key), query)))
+                resolve(_.first(await this.find(key, query)))
+            })
+        },
+        paginate(key, query) {
+            return new Promise(async (resolve, reject) => {
+                var qs = Object.keys(query || {}).map(key => `${key}=${query[key]}`).join('&');
+                var response = await http.get(`/data/${key === '/' ? '' : key}${ qs ? '?' + qs : '' }`)
+                resolve(response.data.response)
             })
         },
         find(key, query) {
             return new Promise(async (resolve, reject) => {
                 var qs = Object.keys(query || {}).map(key => `${key}=${query[key]}`).join('&');
-                var response = await http.get(`/${parseKey(key)}${ qs ? '?' + qs : '' }`)
-                resolve(response.data.response)
+                var response = await http.get(`/data/${key === '/' ? '' : key}${ qs ? '?' + qs : '' }`)
+                resolve(response.data.response.data)
             })
         },
         create(key, value) {
             return new Promise(async (resolve, reject) => {
-                var response = await http.post(`/${parseKey(key)}`, value)
+                var response = await http.post(`/data/${key === '/' ? '' : key}`, value)
                 resolve(response.data.response)
             })
         },
         update(key, id, update) {
             return new Promise(async (resolve, reject) => {
-                var response = await http.post(`/${parseKey(key)}/${id}`, update)
+                var response = await http.post(`/data/${key}/${id}`, update)
                 resolve(response.data.response)
             })
         },
         set(key, update) {
             return new Promise(async (resolve, reject) => {
-                var response = await http.put(`/${parseKey(key)}`, {
-                    change: update
-                })
+                var response = await http.put(`/data/${key}`, update)
                 resolve(response.data.response)
             })
         },
         remove(key, id) {
             return new Promise(async (resolve, reject) => {
-                var response = await http.delete(`/${parseKey(key)}/${id}`)
+                var response = await http.delete(`/data/${key}/${id}`)
                 resolve(response.data.response)
             })
         },
