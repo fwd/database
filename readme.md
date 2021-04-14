@@ -40,11 +40,17 @@ const database = require('@fwd/database')('local')
 
 ```
 
-### Database Types - Local
+### Local
 
 ```js
 
-const database = require('@fwd/database')('local')
+const database = require('@fwd/database')('local', {
+	namespace: 'my_app'
+})
+
+const database2 = require('@fwd/database')('local', {
+	namespace: 'another_app'
+})
 
 ```
 
