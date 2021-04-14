@@ -12,6 +12,10 @@ module.exports = (plugin, config) => {
 		if (plugin === 'local') {
 			return require('./plugins/json')(config)
 		}
+		
+		if (plugin === 'local2') {
+			return require('./plugins/json2')(config)
+		}
 
 		if (plugin === 'cloud' || plugin === 'forward') {
 			return require('./plugins/cloud')(config)
