@@ -1,6 +1,6 @@
 <h1 align="center">@fwd/database ⚡️</h1>
 
-> @fwd/database ⚡️ is a local JSON database for NodeJS. Supports local and remote JSON storage, without changing API.
+> JSON database for NodeJS. Support for local and remote storage, without changing code.
 
 ## Install
 
