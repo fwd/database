@@ -1,6 +1,6 @@
 <h1 align="center">@fwd/database 💿</h1>
 
-> A NodeJS package that exposes a simple JSON database. 
+> A NodeJS package provides a local JSON database and remote JSON storage (with the same API) hosted on cloudjson.io.
 
 ## Install
 
@@ -12,17 +12,23 @@ npm install fwd/database
 
 ```js
 
+const database = require('@fwd/database')('local'})
+
 ;(async () => {
   	
-	// create entry
+	// create user
 	await database.create('users', {
-		name: "Elon Musk",
+		name: "Elon",
 		company: "Tesla"
 	})
 	
-	// find entry
-	var elon = await database.find('users', {
-		name: "Elon Musk"
+	// find user
+	var user = await database.find('users', {
+		name: "Elon"
+	})
+	
+	await database.update('users', user.id, {
+	   company: "Tesla, SpaceX"
 	})
   
 })()
@@ -33,9 +39,7 @@ npm install fwd/database
 
 ```js
 
-const database = require('@fwd/database')('local', {
-    database: "database.json"
-})
+const database = require('@fwd/database')('local'})
 
 ```
 
@@ -49,6 +53,9 @@ const database = require('@fwd/database')('cloud', {
 
 ```
 
+More information @ [cloudjson.io](https://cloudjson.io)
+
+
 ## Author
 
 👤  **Forward Miami**
@@ -58,9 +65,9 @@ const database = require('@fwd/database')('cloud', {
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/fwd/render/issues).
-
 Give a ⭐️ if this project helped you!
+
+Contributions, issues and feature requests are welcome! <br />Feel free to check [issues page](https://github.com/fwd/database/issues).
 
 ## 📝 License
 
