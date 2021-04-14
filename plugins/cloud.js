@@ -1,19 +1,24 @@
 const _ = require('lodash')
 const server = require('@fwd/server')
 module.exports = (config) => {
+
     config = config || {}
-    var package = require('../package.json')
+
     var headers = {
-        baseURL: (config.base_url || 'https://json.miami'),
+        baseURL: (config.base_url || 'https://cloudjson.io/api'),
         headers: {
-             "Authorization": config.apiKey || config.api_key || config.apikey || config.key
+            "Authorization": config.apiKey || config.api_key || config.apikey || config.key
         }
     }
+    
     if (config.telemetry) {
+        var package = require('../package.json')
         headers.headers["Package-Name"] = package.name
         headers.headers["Package-Version"] = package.version
     }
-    var http = server.http.create(headers)
+
+    const http = server.http.create(headers)
+    
     return {
         get(key, query) {
             return this.find(key, query)
@@ -31,43 +36,37 @@ module.exports = (config) => {
                 resolve(_.first(await this.find(key, query)))
             })
         },
-        paginate(key, query) {
-            return new Promise(async (resolve, reject) => {
-                var qs = Object.keys(query || {}).map(key => `${key}=${query[key]}`).join('&');
-                var response = await http.get(`/data/${key === '/' ? '' : key}${ qs ? '?' + qs : '' }`)
-                resolve(response.data.response)
-            })
-        },
         find(key, query) {
             return new Promise(async (resolve, reject) => {
                 var qs = Object.keys(query || {}).map(key => `${key}=${query[key]}`).join('&');
-                var response = await http.get(`/data/${key === '/' ? '' : key}${ qs ? '?' + qs : '' }`)
-                resolve(response.data.response.data)
+                var response = await http.get(`/${key === '/' ? '' : key}${ qs ? '?' + qs : '' }`)
+                resolve(response.data.response)
             })
         },
         create(key, value) {
             return new Promise(async (resolve, reject) => {
-                var response = await http.post(`/data/${key === '/' ? '' : key}`, value)
+                var response = await http.post(`/${key === '/' ? '' : key}`, value)
                 resolve(response.data.response)
             })
         },
         update(key, id, update) {
             return new Promise(async (resolve, reject) => {
-                var response = await http.post(`/data/${key}/${id}`, update)
+                var response = await http.post(`/${key}/${id}`, update)
                 resolve(response.data.response)
             })
         },
         set(key, update) {
             return new Promise(async (resolve, reject) => {
-                var response = await http.put(`/data/${key}`, update)
+                var response = await http.put(`/${key}`, update)
                 resolve(response.data.response)
             })
         },
         remove(key, id) {
             return new Promise(async (resolve, reject) => {
-                var response = await http.delete(`/data/${key}/${id}`)
+                var response = await http.delete(`/${key}/${id}`)
                 resolve(response.data.response)
             })
         },
     }
+
 }
