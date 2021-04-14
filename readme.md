@@ -1,4 +1,4 @@
-<h1 align="center">@fwd/database 💿</h1>
+<h1 align="center">@fwd/database ⚡️</h1>
 
 > A NodeJS package provides a local JSON database and remote JSON storage (with the same API) hosted on cloudjson.io.
 
