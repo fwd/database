@@ -12,7 +12,7 @@ npm install fwd/database
 
 ```js
 
-const database = require('@fwd/database')('local'})
+const database = require('@fwd/database')('local')
 
 ;(async () => {
   	
@@ -44,7 +44,7 @@ const database = require('@fwd/database')('local'})
 
 ```js
 
-const database = require('@fwd/database')('local'})
+const database = require('@fwd/database')('local')
 
 ```
 
@@ -57,6 +57,9 @@ const database = require('@fwd/database')('cloud', {
 })
 
 ```
+
+For a Free API Key & More information @ [cloudjson.io](https://cloudjson.io)
+
 
 ### API Methods
 
@@ -87,8 +90,6 @@ const database = require('@fwd/database')('cloud', {
 })()
 
 ```
-
-More information @ [cloudjson.io](https://cloudjson.io)
 
 
 ## Author
