@@ -24,12 +24,17 @@ const database = require('@fwd/database')('local'})
 	
 	// find user
 	var user = await database.findOne('users', {
-		name: "Elon"
+		name: "Elon",
+		company: "Tesla"
 	})
 	
+	// update user
 	await database.update('users', user.id, {
 	   company: "Tesla, SpaceX"
 	})
+	
+	// delete user
+	await database.delete('users', user.id)
   
 })()
 
