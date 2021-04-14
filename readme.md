@@ -15,26 +15,28 @@ npm install fwd/database
 const database = require('@fwd/database')('local')
 
 ;(async () => {
+
+	const model = 'users'
   	
 	// create user
-	await database.create('users', {
+	await database.create(model, {
 		name: "Elon",
 		company: "Tesla"
 	})
 	
 	// find user
-	var user = await database.findOne('users', {
+	var user = await database.findOne(model, {
 		name: "Elon",
 		company: "Tesla"
 	})
 	
 	// update user
-	await database.update('users', user.id, {
+	await database.update(model, user.id, {
 	   company: "Tesla, SpaceX"
 	})
 	
 	// delete user
-	await database.delete('users', user.id)
+	await database.delete(model, user.id)
   
 })()
 
