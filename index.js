@@ -10,19 +10,17 @@ module.exports = (plugin, config) => {
 		}
 
 		if (plugin === 'local') {
-			return require('./plugins/json')(config)
+			return require('./plugins/local')(config)
 		}
 		
-		if (plugin === 'local2') {
-			return require('./plugins/json2')(config)
-		}
-
-		if (plugin === 'cloud' || plugin === 'forward') {
+		if (plugin === 'cloud') {
 			return require('./plugins/cloud')(config)
 		}
 
 		console.warn('Database Error: Plugin not provided or not supported. Create an issue to request support: https://github.com/fwd/database/issues')
-	
+		
+		return
+		
 	} catch (e) {
 		console.log("Database Error:", e)
 	}
