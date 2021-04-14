@@ -23,7 +23,7 @@ const database = require('@fwd/database')('local'})
 	})
 	
 	// find user
-	var user = await database.find('users', {
+	var user = await database.findOne('users', {
 		name: "Elon"
 	})
 	
@@ -50,6 +50,36 @@ const database = require('@fwd/database')('local'})
 const database = require('@fwd/database')('cloud', {
     key: 'API_KEY'
 })
+
+```
+
+### API Methods
+
+```js
+
+;(async () => {
+	
+	// find objects
+	await database.get('model', query)
+	await database.find('model', query)
+	await database.findOne('model', query)
+	await database.findFirst('model', query)
+	await database.findLast('model', query)
+	
+	// create object
+	await database.create('model', options})
+	
+	// update objects
+	await database.update('model', object.id, update)
+	
+	// set object (used for complete overidding of object)
+	await database.set('model', object.id, override)
+	
+	// delete objects
+	await database.delete('model', object.id)
+	await database.remove('model', object.id)
+  
+})()
 
 ```
 
