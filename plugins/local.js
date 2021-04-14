@@ -3,6 +3,7 @@ const _ = require('lodash')
 const path = require('path')
 const cache = require('@fwd/cache')
 const dirtyJSON = require('dirty-json')
+const queryJSON = require('json-query')
 
 // '.lock' mechanism for simultaneous file read/write
 // https://en.wikipedia.org/wiki/readers-writer_lock
@@ -57,14 +58,14 @@ function writing(path, interval) {
                 resolve()
                 clearInterval(check)
             }
-        }, 1)
+        }, 5) // TODO make this as close to zero as possible
     })
 }
 
 function read(path, raw) {
     return new Promise(async (resolve, reject) => {
-        await writing(path)
         if (cache(path)) return resolve(cache(path))
+        await writing(path)
         fs.readFile(path, 'utf8', function(error, data) {
             var string = data.toString()
             if (error || !data || !string) {
@@ -199,6 +200,13 @@ module.exports = (config) => {
         get(model, query) {
             return this.find(model, query)
         },
+        query(model, query, locals) {
+            return new Promise(async (resolve, reject) => {
+                var data = { [model]: await this.find(model)}
+                query = query ? `${model}${query}` : query
+                resolve( queryJSON(query, { data: data, locals: locals }) )
+            })
+        },
         findFirst(model, query) {
             return this.findOne(model, query)
         },
@@ -285,7 +293,7 @@ module.exports = (config) => {
                 for (var i in files) {
                     files[i] = await read(files[i])
                 }
-
+                
                 files = files.filter(a => a)
                 
                 files = _.sortBy(files, config.created_key).reverse()
