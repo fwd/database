@@ -86,7 +86,7 @@ Free API Key & More information @ [cloudjson.io](https://cloudjson.io)
 	await database.findLast('model', query)
 	
 	// create object
-	await database.create('model', options})
+	await database.create('model', object)
 	
 	// update objects
 	await database.update('model', object.id, update)
