@@ -53,12 +53,13 @@ function list(path) {
 
 function writing(path, interval) {
     return new Promise((resolve) => {
+        if (!saving || saving != path) return resolve()
         var check = setInterval(() => {
             if (!saving || saving != path) {
                 resolve()
                 clearInterval(check)
             }
-        }, 5) // TODO make this as close to zero as possible
+        }, 5)
     })
 }
 
@@ -74,7 +75,9 @@ function read(path, raw) {
                 return
             }
             try {
-                resolve(raw ? string : JSON.parse(string))
+                var object = raw ? string : JSON.parse(string)
+                cache(path, object)
+                resolve(object)
             } catch (e) {
                 console.log("Database Error: Bad JSON", path)
                 resolve(dirtyJSON.parse(string))
@@ -230,7 +233,7 @@ module.exports = (config) => {
             var self = this
             return new Promise(async (resolve, reject) => {
                 
-                var files = await self.list(model)
+                var files = await self.find(model, query)
                 
                 query = query || {}
                 
@@ -252,14 +255,8 @@ module.exports = (config) => {
                     page: Number(page),
                     limit: Number(limit),
                     total: files.length,
-                    data: [],
+                    data: self._paginate(files, limit, page),
                     pages: pages
-                }
-
-                files = self._paginate(files, limit, page)
-
-                for (var i in files) {
-                    response.data[i] = await self.find(`${model}/${files[i]}`)
                 }
 
                 resolve(response)
@@ -306,10 +303,12 @@ module.exports = (config) => {
                     return
                 }
 
-                var files = await walk(key)
+                var _list = await list(key)
 
-                for (var i in files) {
-                    files[i] = await read(files[i])
+                var files = []
+
+                for (var i in _list) {
+                    files.push(await read(`${key}/${_list[i]}`))
                 }
                 
                 files = files.filter(a => a)
