@@ -229,24 +229,41 @@ module.exports = (config) => {
         paginate(model, query) {
             var self = this
             return new Promise(async (resolve, reject) => {
-                var files = await self.find(model, query)
+                
+                var files = await self.list(model)
+                
                 query = query || {}
+                
                 var page = query.page || 1
+                
                 var limit = query.limit || files.length
+                
                 var pages = Math.floor(files.length / limit)
+
                 if (files.length > limit && pages == 1) {
                     pages += 1
                 }
+
                 if (pages == 0) {
                     page = 1
                 }
-                resolve({
+
+                var response = {
                     page: Number(page),
                     limit: Number(limit),
                     total: files.length,
-                    data: self._paginate(files, limit, page),
+                    data: [],
                     pages: pages
-                })
+                }
+
+                files = self._paginate(files, limit, page)
+
+                for (var i in files) {
+                    response.data[i] = await self.find(`${model}/${files[i]}`)
+                }
+
+                resolve(response)
+
             })
         },
         find(model, query) {
