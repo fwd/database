@@ -313,7 +313,7 @@ module.exports = (config) => {
                 
                 files = files.filter(a => a)
                 
-                files = _.sortBy(files, config.created_key).reverse()
+                files = _.sortBy(files, config.created_key)
 
                 files = files.map(a => {
                     var b = {
