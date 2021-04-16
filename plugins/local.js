@@ -148,6 +148,7 @@ module.exports = (config) => {
             
         },
         _list(path) {
+            var self = this
             return new Promise(async (resolve) => {
                 
                 var namespace = await self.permission(path)
