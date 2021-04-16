@@ -37,12 +37,14 @@ module.exports = (config) => {
         },
         findLast(key, query) {
             return new Promise(async (resolve, reject) => {
-                resolve(_.last(await this.find(key, query)))
+                var paginated = await this.find(key, query)
+                resolve(_.last(paginated.data))
             })
         },
         findOne(key, query) {
             return new Promise(async (resolve, reject) => {
-                resolve(_.first(await this.find(key, query)))
+                var paginated = await this.find(key, query)
+                resolve(_.first(paginated.data))
             })
         },
         find(key, query) {
