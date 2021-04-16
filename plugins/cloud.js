@@ -24,7 +24,7 @@ module.exports = (config) => {
         if (model.includes('/')) {
             return `/${model}`
         } else {
-            return `/default/${model}`
+            return `/${ config.namespace || 'default' }/${model}`
         }
     }
     
