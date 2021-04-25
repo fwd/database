@@ -34,10 +34,11 @@ function check(path) {
 
 function list(path) {
     return new Promise(async (resolve, reject) => {
+        var exclude = [ '.DS_Store' ]
         try {
             if (fs.existsSync(path)) {
                 fs.readdir(path, (err, files) => {
-                    resolve(files)
+                    resolve(files.filter(a => a && !exclude.includes(a)))
                 })
             } else {
                 resolve({
