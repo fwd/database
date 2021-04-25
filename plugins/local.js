@@ -133,7 +133,7 @@ module.exports = (config) => {
     config.namespace = config.namespace || '_default'
     config.default_key = config.default_key || '_default'
     config.created_key = config.created_key || 'created_at'
-    config.updated_key = config.updated_key || 'updated_key'
+    config.updated_key = config.updated_key || 'updated_at'
     return {
         async permission(model) {
 
