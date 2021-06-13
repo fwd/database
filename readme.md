@@ -87,21 +87,6 @@ const database2 = require('@fwd/database')('local', {
 
 ```
 
-### Cloud
-
-[cloudjson.io](https://cloudjson.io) is a cloud JSON storage service from the same makers of this package. 
-
-```js
-
-const database = require('@fwd/database')('cloud', {
-    key: 'API_KEY',
-    namespace: 'my_app'
-})
-
-```
-
-Free API Key & More information @ [cloudjson.io](https://cloudjson.io)
-
 
 ## Author
 
