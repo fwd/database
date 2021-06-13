@@ -47,26 +47,32 @@ const database = require('@fwd/database')('local')
 ```js
 
 ;(async () => {
+
+	const model = 'users'
 	
-	// find objects
-	await database.get('model', query)
-	await database.find('model', query)
-	await database.findOne('model', query)
-	await database.findFirst('model', query)
-	await database.findLast('model', query)
+	// find users
+	await database.get(model, query)
+	await database.find(model, query)
+	await database.findOne(model, query)
+	await database.findFirst(model, query)
+	await database.findLast(model, query)
 	
-	// create object
-	await database.create('model', object)
+	// query users (advanced)
+	await database.query(users, '[country=NZ].name')
 	
-	// update objects
-	await database.update('model', object.id, update)
+	// create user
+	var user = await database.create(model, { fname: "John" })
 	
-	// set object (used for complete overidding of object)
-	await database.set('model', object.id, override)
+	// update users
+	await database.update(model, user.id, { lname: "Doe" })
 	
-	// delete objects
-	await database.delete('model', object.id)
-	await database.remove('model', object.id)
+	// set user (used for complete overidding of object)
+	await database.set(model, user.id, { fname: "John" })
+	
+	// delete users
+	await database.delete(model, user.id)
+	// alias
+	await database.remove(model, user.id)
   
 })()
 
