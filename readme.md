@@ -1,6 +1,6 @@
 <h1 align="center">@fwd/database ⚡️</h1>
 
-> JSON database for NodeJS. Support for local and remote storage, without changing code.
+> JSON database for NodeJS. Stores JSON as files using file system. Instead of on big JSON file. 
 
 ## Install
 
