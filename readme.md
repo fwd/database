@@ -54,8 +54,8 @@ const database = require('@fwd/database')('local')
 	
 	// find users
 	await database.get(model) // returns all
-	await database.find(model, { id: 2 }) // array with id of 2
-	await database.findOne(model, { id: 2 }) // object of item
+	await database.find(model, { id: 2 }) // array
+	await database.findOne(model, { id: 2 }) // object
 	await database.findFirst(model, query) 
 	await database.findLast(model, query)
 	
