@@ -2,18 +2,21 @@
 
 ![Or do](https://i.ibb.co/17s2yyM/image.png)
 
-> JSON database for NodeJS. Stores JSON as files using file system. Instead of one big JSON file. 
+# fwd/database
 
-## Install
+> NodeJS file based JSON database with an SQL-like API and advance querying capabilities.
+
+## install
 
 ```sh
 npm install fwd/database
 ```
 
-## Usage
+## usage
 
 ```js
 
+// initalize it
 const database = require('@fwd/database')('local')
 
 ;(async () => {
@@ -44,7 +47,7 @@ const database = require('@fwd/database')('local')
 
 ```
 
-### API Methods
+### api
 
 ```js
 
@@ -53,10 +56,10 @@ const database = require('@fwd/database')('local')
 	const model = 'users'
 	
 	// find users
-	await database.get(model, query)
-	await database.find(model, query)
-	await database.findOne(model, query)
-	await database.findFirst(model, query)
+	await database.get(model) // returns all
+	await database.find(model, { id: 2 }) // array with id of 2
+	await database.findOne(model, { id: 2 }) // object of item
+	await database.findFirst(model, query) 
 	await database.findLast(model, query)
 	
 	// query users (advanced)
@@ -73,7 +76,8 @@ const database = require('@fwd/database')('local')
 	
 	// delete users
 	await database.delete(model, user.id)
-	// alias
+	
+	// delete alias
 	await database.remove(model, user.id)
   
 })()
@@ -81,7 +85,7 @@ const database = require('@fwd/database')('local')
 ```
 
 
-### Local
+### multiple databases
 
 ```js
 
@@ -95,21 +99,33 @@ const database2 = require('@fwd/database')('local', {
 
 ```
 
+### adapters
 
-## Author
+```js
+
+const localDb = require('@fwd/database')('local') // default, experimental
+
+const lowDb = require('@fwd/database')('lowdb') // stable
+
+const cloudDb = require('@fwd/database')('cloud') // experimental
+
+```
+
+
+## author
 
 👤  **Forward Miami**
 
 * Github: [@fwd](https://github.com/fwd)
 * Website: [https://forward.miami](https://forward.miami)
 
-## 🤝 Contributing
+## 🤝 contributing
 
 Give a ⭐️ if this project helped you!
 
 Contributions, issues and feature requests are welcome! <br />Feel free to check [issues page](https://github.com/fwd/database/issues).
 
-## 📝 License
+## 📝 license
 
 MIT License
 
