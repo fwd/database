@@ -1,4 +1,6 @@
-<h1 align="center">@fwd/database ⚡️</h1>
+<!-- <h1 align="center">JSON Database</h1> -->
+
+![Or do](https://i.ibb.co/17s2yyM/image.png)
 
 > JSON database for NodeJS. Stores JSON as files using file system. Instead of one big JSON file. 
 
