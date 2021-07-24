@@ -4,7 +4,7 @@
 
 # fwd/database
 
-> NodeJS file based JSON database with SQL-like API and advance querying capabilities.
+> NodeJS file system based JSON database with SQL-like API and advance querying capabilities.
 
 ## install
 
