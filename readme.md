@@ -4,7 +4,7 @@
 
 # fwd/database
 
-> File based NodeJS JSON database with SQL-like API and advanced querying capabilities. Support for multiple adapters while maintaning same API. Future support for SQL & NoSQL in the works. 
+> NodeJS JSON database (like LowDB) with SQL-like API and advanced querying capabilities. Support for multiple adapters while maintaining same API. Future support for SQL & NoSQL in the works.
 
 ## install
 
