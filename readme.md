@@ -6,13 +6,25 @@
 
 > NodeJS JSON database (like LowDB) with SQL-like API and advanced querying capabilities. Support for multiple adapters while maintaining same API. Future support for SQL & NoSQL in the works.
 
-## install
+## Install
 
 ```sh
 npm install fwd/database
 ```
 
-## usage
+### DBMS Support
+
+```js
+
+const localDb = require('@fwd/database')('local') // default, experimental multi file
+
+const lowDb = require('@fwd/database')('lowdb') // stable, flat file
+
+const cloudDb = require('@fwd/database')('cloud') // experimental, remote via http
+
+```
+
+## Basic Usage
 
 ```js
 
@@ -44,45 +56,42 @@ const database = require('@fwd/database')('local')
 
 ```
 
-### api
+### API
 
 ```js
 
 ;(async () => {
-
-	const model = 'users'
 	
 	// find users
-	await database.get(model) // returns all
-	await database.find(model, { id: 2 }) // array
-	await database.findOne(model, { id: 2 }) // object
-	await database.findFirst(model, query) 
-	await database.findLast(model, query)
+	await database.get('users') // returns all
+	await database.find('users', { id: 2 }) // array
+	await database.findOne('users', { id: 2 }) // object
+	await database.findFirst('users', query) 
+	await database.findLast('users', query)
 	
 	// query users (advanced)
-	await database.query(users, '[country=NZ].name')
+	await database.query('users', '[country=NZ].name')
 	
 	// create user
-	var user = await database.create(model, { fname: "John" })
+	var user = await database.create('users', { fname: "John" })
 	
 	// update users
-	await database.update(model, user.id, { lname: "Doe" })
+	await database.update('users', user.id, { lname: "Doe" })
 	
 	// set user (used for complete overidding of object)
-	await database.set(model, user.id, { fname: "John" })
+	await database.set('users', user.id, { fname: "John" })
 	
 	// delete users
-	await database.delete(model, user.id)
+	await database.delete('users', user.id)
 	
 	// delete alias
-	await database.remove(model, user.id)
+	await database.remove('users', user.id)
   
 })()
 
 ```
 
-
-### multiple databases
+### Multiple Instances
 
 ```js
 
@@ -96,33 +105,21 @@ const database2 = require('@fwd/database')('local', {
 
 ```
 
-### adapters
 
-```js
-
-const localDb = require('@fwd/database')('local') // default, experimental
-
-const lowDb = require('@fwd/database')('lowdb') // stable
-
-const cloudDb = require('@fwd/database')('cloud') // experimental
-
-```
-
-
-## author
+## Author
 
 👤  **Forward Miami**
 
 * Github: [@fwd](https://github.com/fwd)
 * Website: [https://forward.miami](https://forward.miami)
 
-## 🤝 contributing
+## 🤝 Contributing
 
 Give a ⭐️ if this project helped you!
 
 Contributions, issues and feature requests are welcome! <br />Feel free to check [issues page](https://github.com/fwd/database/issues).
 
-## 📝 license
+## 📝 License
 
 MIT License
 
