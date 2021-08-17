@@ -24,6 +24,9 @@ const cloudDb = require('@fwd/database')('cloud') // experimental, remote via ht
 
 ```
 
+Support for MySQL & MariaDB, PostgreSQL, Amazon Redshift, SQLite, MongoDB with same API coming soon!
+
+
 ## Basic Usage
 
 ```js
