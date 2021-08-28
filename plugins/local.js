@@ -298,6 +298,8 @@ module.exports = (config) => {
                     } catch(e) { resolve(contents) }
                     return
                 }
+                
+                query = (typeof query == 'string' ? { id: query } : query)
 
                 if (query && query.id && await check(`${key}/${query.id}`) && fs.lstatSync(`${key}/${query.id}`).isFile()) {
                     resolve([await read(`${key}/${query.id}`)])
