@@ -18,11 +18,11 @@ npm install fwd/database
 
 ```js
 
-const localDb = require('@fwd/database')('local') // default, experimental multi file
+const lowDb = require('@fwd/database')('lowdb') // stable, json flat file
 
-const lowDb = require('@fwd/database')('lowdb') // stable, flat file
+const localDb = require('@fwd/database')('local') // default, json multi file, experimental
 
-const cloudDb = require('@fwd/database')('cloud') // experimental, remote via http(s)
+const cloudDb = require('@fwd/database')('cloud') // remote storage server via http(s)
 
 const mongoDb = require('@fwd/database')('mongoDB') // coming soon
 
