@@ -22,7 +22,7 @@ const localDb = require('@fwd/database')('local') // default, experimental multi
 
 const lowDb = require('@fwd/database')('lowdb') // stable, flat file
 
-const cloudDb = require('@fwd/database')('cloud') // experimental, remote via http
+const cloudDb = require('@fwd/database')('cloud') // experimental, remote via http(s)
 
 ```
 
