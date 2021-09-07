@@ -24,6 +24,10 @@ const lowDb = require('@fwd/database')('lowdb') // stable, flat file
 
 const cloudDb = require('@fwd/database')('cloud') // experimental, remote via http(s)
 
+const mongoDb = require('@fwd/database')('mongoDB') // coming soon
+
+const mySQL = require('@fwd/database')('mySQL') // coming soon
+
 ```
 
 Support for MongoDB with same API coming soon!
