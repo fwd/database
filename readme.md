@@ -30,8 +30,6 @@ const mySQL = require('@fwd/database')('mySQL') // coming soon
 
 ```
 
-Support for MongoDB with same API coming soon!
-
 
 ## Basic Usage
 
