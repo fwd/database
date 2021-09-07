@@ -14,7 +14,7 @@
 npm install fwd/database
 ```
 
-### Supported DBMS (i.e Plugins)
+## Supported DBMS (i.e Plugins)
 
 ```js
 
@@ -33,7 +33,7 @@ Support for MongoDB with same API coming soon!
 
 ```js
 
-// initalize it
+// initalize using the local plugin
 const database = require('@fwd/database')('local')
 
 ;(async () => {
