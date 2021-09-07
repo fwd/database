@@ -12,7 +12,7 @@
 npm install fwd/database
 ```
 
-### DBMS Support
+### DBMS Support (i.e Plugins)
 
 ```js
 
@@ -31,7 +31,7 @@ Support for MySQL & MariaDB, PostgreSQL, Amazon Redshift, SQLite, MongoDB with s
 
 ```js
 
-// initalize it
+// initalize using the local plugin
 const database = require('@fwd/database')('local')
 
 ;(async () => {
