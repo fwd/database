@@ -1,7 +1,5 @@
 <!-- <h1 align="center">JSON Database</h1> -->
 
-![Or do](https://i.ibb.co/17s2yyM/image.png)
-
 # fwd/database
 
 > NodeJS JSON database (like LowDB) with SQL-like API and advanced querying capabilities. Support for multiple adapters while maintaining same API. Future support for SQL & NoSQL in the works.
