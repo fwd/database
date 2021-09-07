@@ -3,6 +3,11 @@ module.exports = (plugin, config) => {
 	config = config || {}
 	plugin = (plugin || '').toLowerCase()
 
+	if (!plugin) {
+		plugin = 'local'
+		console.log('Database Notice: No plugin supplied. Defaulting to local. More info: https://github.com/fwd/database')
+	}
+
 	try	{
 
 		if (plugin === 'lowdb') {
@@ -13,7 +18,7 @@ module.exports = (plugin, config) => {
 			return require('./plugins/local')(config)
 		}
 		
-		if (plugin === 'cloud') {
+		if (plugin === 'cloud' || plugin === 'remote' || plugin === 'internet') {
 			return require('./plugins/cloud')(config)
 		}
 
