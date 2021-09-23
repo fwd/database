@@ -69,12 +69,11 @@ function read(path, raw) {
         if (cache(path)) return resolve(cache(path))
         await writing(path)
         fs.readFile(path, 'utf8', function(error, data) {
-            var string = data.toString()
-            if (error || !data || !string) {
+            if (!data || error) {
                 console.log("Database Error: Bad Buffer", path)
-                resolve()
-                return
+                return resolve()
             }
+            var string = data.toString()
             try {
                 var object = raw ? string : JSON.parse(string)
                 cache(path, object)
