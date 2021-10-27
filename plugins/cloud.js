@@ -4,7 +4,7 @@ module.exports = (config) => {
 
     config = config || {}
 
-    var baseURL = config.base_url || config.base || config.url ||config.source || config.mothership 
+    var baseURL = config.base_url || config.base || config.url ||config.source || config.mothership
 
     if (!baseURL) {
         throw new Error("Remote base URL is required.")
@@ -54,7 +54,6 @@ module.exports = (config) => {
         findOne(key, query) {
             return new Promise(async (resolve, reject) => {
                 var paginated = await this.find(key, query)
-                console.log( paginated )
                 resolve(paginated ? _.first(paginated.data) : null)
             })
         },
@@ -63,35 +62,40 @@ module.exports = (config) => {
             return new Promise(async (resolve, reject) => {
                 var qs = Object.keys(query || {}).map(key => `${key}=${query[key]}`).join('&');
                 var response = await http.get(`${namespace(key)}${ qs ? '?' + qs : '' }`)
-                resolve(response.data.response)
+                if (response.data.error) throw Error(response.data.error)
+                resolve(response.data)
             })
         },
 
         create(key, value) {
             return new Promise(async (resolve, reject) => {
                 var response = await http.post(namespace(key), value)
-                resolve(response.data.response)
+                if (response.data.error) throw Error(response.data.error)
+                resolve(response.data)
             })
         },
 
         update(key, id, update) {
             return new Promise(async (resolve, reject) => {
                 var response = await http.post(`${namespace(key)}/${id}`, update)
-                resolve(response.data.response)
+                if (response.data.error) throw Error(response.data.error)
+                resolve(response.data)
             })
         },
 
         set(key, update) {
             return new Promise(async (resolve, reject) => {
                 var response = await http.put(namespace(key), update)
-                resolve(response.data.response)
+                if (response.data.error) throw Error(response.data.error)
+                resolve(response.data)
             })
         },
 
         remove(key, id) {
             return new Promise(async (resolve, reject) => {
                 var response = await http.delete(`${namespace(key)}/${id}`)
-                resolve(response.data.response)
+                if (response.data.error) throw Error(response.data.error)
+                resolve(response.data)
             })
         },
 
