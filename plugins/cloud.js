@@ -53,8 +53,8 @@ module.exports = (config) => {
 
         findOne(key, query) {
             return new Promise(async (resolve, reject) => {
-                var paginated = await this.find(key, query)
-                resolve(paginated ? _.first(paginated.data) : null)
+                var results = await this.find(key, query)
+                resolve(results && Array.isArray(results) ? _.first(results) : null)
             })
         },
 
