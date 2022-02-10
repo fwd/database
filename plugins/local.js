@@ -358,7 +358,7 @@ module.exports = (config) => {
                 }
 
                 if (await check(`${key}/${config.default_key}`)) {
-                    reject({ error: true, message: `${model} is not an Array.` })
+                    reject({ error: true, message: `${model} is not an Array.` })
                     return
                 }
 
@@ -372,6 +372,34 @@ module.exports = (config) => {
                 }
 
                 resolve( items.length > 1 ? { total: items.length, sample: _.sampleSize(items, 10) } : _.first(items) )
+
+            })
+        },
+        pluck(model, id, key) {
+            var self = this
+            return new Promise(async (resolve, reject) => {
+
+                var namespace = await self.permission(model)
+
+                if (!namespace) {
+                    return reject({ error: true, message: "Database Error: Invalid path" })
+                }
+
+                var key = `${namespace}/${model}`
+
+                if (id) key += `/${id}`
+
+                if (!await check(key)) {
+                    return reject({ error: true, message: "Not found" })
+                }
+
+                cache(key, null) // flush cache
+
+                var item = await read(key)
+
+                delete item[key]
+
+                resolve(await write(key, item))
 
             })
         },
