@@ -6,7 +6,7 @@
 
 > Open Source Database Framework for NodeJS.
 
-#### This package is in active development by the team at [Formsend](https://formsend.org). The idea is to use the same API for any given database. Pull requests and feature requests are welcomed.
+#### This package is in active development by the team at [Formsend](https://formsend.com). The idea is to use the same API for any given database. Pull requests and feature requests are welcomed.
 
 ## Install
 
@@ -112,41 +112,38 @@ const database2 = require('@fwd/database')('local', {
 
 ```
 
-## Author
 
-👤  **Forward Miami**
+## 👤 Author
+
+**Fresh Web Designs**
+
+📍 Miami, Florida
 
 * Github: [@fwd](https://github.com/fwd)
-* Website: [https://forward.miami](https://forward.miami)
-* Formsend: [https://formsend.org](https://formsend.org)
+* Website: [https://fwd.dev](https://fwd.dev)
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome! Feel free to check [issues page](https://github.com/fwd/database/issues).
+Give a ⭐️ if this project helped you!
+
+Contributions, issues and feature requests are welcome! Feel free to check [issues page](https://github.com/fwd/server/issues).
 
 ## ♥️ Donate 
 
 We accept Crypto donations at the following addresses: 
 
+https://nano.to/Development
+
 ```
 # Nano
 nano_3gf57qk4agze3ozwfhe8w6oap3jmdb4ofe9qo1ra3wcs5jc888rwyt61ymea
-
-# Bitcoin
-bc1qcgvew2a7ta3f7xy5999tdwyd8clrvdtpe2uvj5
-
-# Doge
-D9U1FLygkMydx3DE2sXgnuFpHm7ePm3Zwe
-
-# Ethereum
-0xdD4691Dc9562FB262e4b2076bE255303243f271d
 ```
 
 ## 📝 License
 
 MIT License
 
-Copyright © 2021 [Forward Miami](https://forward.miami).
+Copyright © 2022 [Fresh Web Designs](https://fwd.dev).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
