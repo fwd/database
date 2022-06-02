@@ -11,7 +11,7 @@ module.exports = (plugin, config) => {
 	try	{
 
 		if (plugin === 'lowdb') {
-			return require('./plugins/LowDB')(config)
+			return require('./plugins/lowdb')(config)
 		}
 
 		if (plugin === 'local') {
