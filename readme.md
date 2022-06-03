@@ -6,8 +6,6 @@
 
 > Open Source Database Framework for NodeJS.
 
-#### This package is in active development by the team at [Formsend](https://formsend.com). The idea is to use the same API for any given database. Pull requests and feature requests are welcomed.
-
 ## Install
 
 ```sh
