@@ -16,7 +16,7 @@ npm install @fwd/database
 
 const lowDb = require('@fwd/database')('lowdb') // stable, json flat file
 
-const localDb = require('@fwd/database')('local') // default, json multi-file, experimental.
+const localDb = require('@fwd/database')('local') // default, json multi-file.
 
 const cloudDb = require('@fwd/database')('cloud') // remote storage server via http(s)
 
