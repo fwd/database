@@ -12,7 +12,7 @@
 npm install fwd/database
 ```
 
-## Supported DBMS (i.e Plugins)
+## Supported Databases
 
 ```js
 
