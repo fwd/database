@@ -1,9 +1,9 @@
 {
   "name": "@fwd/database",
-  "version": "0.1.10",
-  "description": "A NodeJS library to simplify persistent storage.",
+  "version": "1.0.0",
+  "description": "Modular database for NodeJS.",
   "main": "index.js",
-  "author": "Forward Miami <hello@forward.miami>",
+  "author": "Fresh Web Designs <hello@fwd.dev>",
   "license": "MIT",
   "homepage": "https://github.com/fwd/database",
   "repository": {

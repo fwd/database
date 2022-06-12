@@ -1,5 +1,3 @@
-<!-- <h1 align="center">JSON Database</h1> -->
-
 ![Cover](https://raw.githubusercontent.com/fwd/database/master/.github/banner.png)
 
 # fwd/database
@@ -9,7 +7,7 @@
 ## Install
 
 ```sh
-npm install fwd/database
+npm install @fwd/database
 ```
 
 ## Supported Databases
