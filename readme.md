@@ -2,7 +2,7 @@
 
 # fwd/database
 
-> SQL-Like Modular Database for NodeJS.
+>  Modular Database for NodeJS with SQL-Like syntax.
 
 ## Install
 

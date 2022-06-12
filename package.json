@@ -1,6 +1,6 @@
 {
   "name": "@fwd/database",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Modular database for NodeJS.",
   "main": "index.js",
   "author": "Fresh Web Designs <hello@fwd.dev>",
