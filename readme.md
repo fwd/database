@@ -4,7 +4,7 @@
 
 # fwd/database
 
-> Open Source Database Framework for NodeJS.
+> SQL-Like Modular Database for NodeJS.
 
 ## Install
 
@@ -18,13 +18,13 @@ npm install fwd/database
 
 const lowDb = require('@fwd/database')('lowdb') // stable, json flat file
 
-const localDb = require('@fwd/database')('local') // default, json multi file, experimental
+const localDb = require('@fwd/database')('local') // default, json multi-file, experimental.
 
 const cloudDb = require('@fwd/database')('cloud') // remote storage server via http(s)
 
-const mongoDb = require('@fwd/database')('mongoDB') // coming soon
+const mongoDb = require('@fwd/database')('mongodb') // coming soon
 
-const mySQL = require('@fwd/database')('mySQL') // coming soon
+const mySQL = require('@fwd/database')('mysql') // coming soon
 
 ```
 
@@ -110,7 +110,6 @@ const database2 = require('@fwd/database')('local', {
 
 ```
 
-
 ## 👤 Author
 
 **Fresh Web Designs**
@@ -125,17 +124,6 @@ const database2 = require('@fwd/database')('local', {
 Give a ⭐️ if this project helped you!
 
 Contributions, issues and feature requests are welcome! Feel free to check [issues page](https://github.com/fwd/server/issues).
-
-## ♥️ Donate 
-
-We accept Crypto donations at the following addresses: 
-
-https://nano.to/Development
-
-```
-# Nano
-nano_3gf57qk4agze3ozwfhe8w6oap3jmdb4ofe9qo1ra3wcs5jc888rwyt61ymea
-```
 
 ## 📝 License
 
