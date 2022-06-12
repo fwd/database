@@ -18,8 +18,6 @@ const lowDb = require('@fwd/database')('lowdb') // stable, json flat file
 
 const localDb = require('@fwd/database')('local') // default, json multi-file.
 
-const cloudDb = require('@fwd/database')('cloud') // remote storage server via http(s)
-
 const mongoDb = require('@fwd/database')('mongodb') // coming soon
 
 const mySQL = require('@fwd/database')('mysql') // coming soon
