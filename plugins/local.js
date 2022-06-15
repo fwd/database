@@ -70,8 +70,8 @@ function read(path, raw) {
         await writing(path)
         fs.readFile(path, 'utf8', function(error, data) {
             if (!data || error) {
-                console.log("Database Error: Bad Buffer", path)
-                return resolve()
+                // console.log("Database Error: Bad Buffer", path)
+                return resolve(error)
             }
             var string = data.toString()
             try {
