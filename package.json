@@ -1,7 +1,7 @@
 {
   "name": "@fwd/database",
   "version": "1.1.0",
-  "description": "Modular database for NodeJS.",
+  "description": "SQL-Like Modular Database for NodeJS",
   "main": "index.js",
   "author": "Fresh Web Designs <hello@fwd.dev>",
   "license": "MIT",
