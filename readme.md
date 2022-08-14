@@ -1,13 +1,9 @@
 ![Cover](https://raw.githubusercontent.com/fwd/database/master/.github/banner.png)
 
-# fwd/database
-
->  Modular Database for NodeJS with SQL-Like syntax.
-
-## Install
+## Usage
 
 ```sh
-npm install @fwd/database
+npm install fwd/database
 ```
 
 ## Supported Databases
@@ -23,9 +19,6 @@ const mongoDb = require('@fwd/database')('mongodb') // coming soon
 const mySQL = require('@fwd/database')('mysql') // coming soon
 
 ```
-
-
-## Basic Usage
 
 ```js
 
