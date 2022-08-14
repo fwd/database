@@ -99,26 +99,17 @@ const database2 = require('@fwd/database')('local', {
 
 ```
 
-## 👤 Author
-
-**Fresh Web Designs**
-
-📍 Miami, Florida
-
-* Github: [@fwd](https://github.com/fwd)
-* Website: [https://fwd.dev](https://fwd.dev)
-
 ## 🤝 Contributing
 
 Give a ⭐️ if this project helped you!
 
-Contributions, issues and feature requests are welcome! Feel free to check [issues page](https://github.com/fwd/server/issues).
+Contributions, issues and feature requests are welcome! Feel free to check [issues page](https://github.com/fwd/database/issues).
 
 ## 📝 License
 
 MIT License
 
-Copyright © 2022 [Fresh Web Designs](https://fwd.dev).
+Copyright © [nano2dev](https://twitter.com/nano2dev).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
