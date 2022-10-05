@@ -45,6 +45,7 @@ module.exports = (config) => {
 						resolve([])
 						return
 					}
+					query = typeof query === 'string' ? { id: query } : query
 					results = results.filter(function(item) {
 					  for (var key in query) {
 					    if (item[key] === undefined || item[key] != query[key])
