@@ -15,11 +15,9 @@ const localDb = require('@fwd/database')('local') // default, JSON multi-file.
 const mongoDb = require('@fwd/database')('sqlite') // coming soon
 const mySQL = require('@fwd/database')('mysql') // coming soon
 const mySQL = require('@fwd/database')('mongodb') // coming soon
-
 ```
 
 ```js
-
 // initalize using the local plugin
 const database = require('@fwd/database')('local')
 
@@ -45,7 +43,6 @@ const database = require('@fwd/database')('local')
 	await database.delete('users', user.id)
   
 })()
-
 ```
 
 ### API
@@ -80,21 +77,16 @@ const database = require('@fwd/database')('local')
 	await database.remove('users', user.id)
   
 })()
-
 ```
 
 ### Multiple Instances
 
 ```js
-
-const database = require('@fwd/database')('local', {
-	namespace: 'my_app'
-})
+const database = require('@fwd/database')('local')
 
 const database2 = require('@fwd/database')('local', {
 	namespace: 'another_app'
 })
-
 ```
 
 ## 🤝 Contributing
