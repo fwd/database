@@ -1,7 +1,14 @@
 const _ = require('lodash')
-const server = require('@fwd/server')
 const low = require('lowdb')
 const FileAsync = require('lowdb/adapters/FileAsync')
+
+function uuid() {
+    return `xxxxxxxxxxxxxxxxxx`.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16)
+    })
+}
 
 module.exports = (config) => {
 
@@ -68,7 +75,7 @@ module.exports = (config) => {
 					}
 					db.defaults(defaults).write()
 					if (typeof value === "object" && !value.id) {
-						value.id = server.uuid()
+						value.id = uuid()
 					}
 					db.get(key).push(value).write().then((item) => {
 						resolve(value)

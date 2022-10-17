@@ -1,7 +1,7 @@
 const fs = require('fs')
 const _ = require('lodash')
 const path = require('path')
-const cache = require('@fwd/cache')
+const cache = require('./cache')
 const dirtyJSON = require('dirty-json')
 const queryJSON = require('json-query')
 
@@ -10,7 +10,7 @@ const queryJSON = require('json-query')
 let saving = false
 
 function uuid() {
-    return `xxxxxxxxxxx`.replace(/[xy]/g, function(c) {
+    return `xxxxxxxxxxxxxxxxxx`.replace(/[xy]/g, function(c) {
         var r = Math.random() * 16 | 0,
             v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16)
@@ -132,8 +132,8 @@ module.exports = (config) => {
     config.path = config.path || config.base_path || '.data'
     config.namespace = config.namespace || '_default'
     config.default_key = config.default_key || '_default'
-    config.created_key = config.created_key || 'created_at'
-    config.updated_key = config.updated_key || 'updated_at'
+    config.created_key = config.created_key || 'created'
+    config.updated_key = config.updated_key || 'updated'
     return {
         async permission(model) {
 

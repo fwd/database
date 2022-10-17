@@ -1,19 +1,16 @@
 const _ = require('lodash')
-const server = require('@fwd/server')
+const axios = require('axios')
 module.exports = (config) => {
 
     config = config || {}
 
     var baseURL = config.base_url || config.base || config.url ||config.source || config.mothership
 
-    if (!baseURL) {
-        throw new Error("Remote base URL is required.")
-        return
-    }
+    if (!baseURL) return throw new Error("Database: Remote base url required.")
 
+    var authorization_header = config.authorization_header || config.auth_header || config.api_header
     var apiKey = config.apiKey || config.api_key || config.apikey || config.key
-
-    var headers = { baseURL, headers: { "Authorization": apiKey || '' } }
+    var headers = { baseURL, headers: { [authorization_header || 'Authorization']: apiKey || '' } }
 
     if (config.headers) Object.keys(config.headers).map(a => headers.headers[a] = config.headers[a])
     
@@ -23,15 +20,12 @@ module.exports = (config) => {
         headers.headers["Package-Version"] = package.version
     }
 
-    const http = server.http.create(headers)
+    const http = axios.create(headers)
 
     function namespace(model) {
         model = model === '/' ? '' : model
-        if (model.includes('/')) {
-            return `/${model}`
-        } else {
-            return `/${model}`
-        }
+        if (model.includes('/')) return `/${model}`
+        else return `/${model}`
     }
     
     return {
