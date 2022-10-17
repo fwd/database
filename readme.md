@@ -9,14 +9,12 @@ npm install fwd/database
 ## Supported Databases
 
 ```js
+const lowDb = require('@fwd/database')('lowdb') // stable, JSON flat file
+const localDb = require('@fwd/database')('local') // default, JSON multi-file.
 
-const lowDb = require('@fwd/database')('lowdb') // stable, json flat file
-
-const localDb = require('@fwd/database')('local') // default, json multi-file.
-
-const mongoDb = require('@fwd/database')('mongodb') // coming soon
-
+const mongoDb = require('@fwd/database')('sqlite') // coming soon
 const mySQL = require('@fwd/database')('mysql') // coming soon
+const mySQL = require('@fwd/database')('mongodb') // coming soon
 
 ```
 
