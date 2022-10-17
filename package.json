@@ -1,6 +1,6 @@
 {
   "name": "@fwd/database",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "SQL-Like Modular Database for NodeJS",
   "main": "index.js",
   "author": "Fresh Web Designs <hello@fwd.dev>",
@@ -18,7 +18,10 @@
     "@fwd/server": "*",
     "dirty-json": "^0.9.2",
     "json-query": "^2.2.2",
+    "json-sql": "^0.5.0",
     "lodash": "^4.17.21",
-    "lowdb": "^1.0.0"
+    "lowdb": "^1.0.0",
+    "sqlite": "^4.1.2",
+    "sqlite3": "^5.1.2"
   }
 }
