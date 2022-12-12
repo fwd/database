@@ -10,8 +10,7 @@ npm install fwd/database
 
 ```js
 const lowDb = require('@fwd/database')('lowdb') // json flat file
-const localDb = require('@fwd/database')('local') // json multi-file, default.
-
+const localDb = require('@fwd/database')('local') // json multi-file
 const mongoDb = require('@fwd/database')('mongodb') // coming soon
 const mySQL = require('@fwd/database')('mysql') // coming soon
 ```
