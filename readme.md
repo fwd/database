@@ -1,46 +1,43 @@
 ![Cover](https://raw.githubusercontent.com/fwd/database/master/.github/banner.png)
 
-## Usage
+## Install
 
 ```sh
 npm install fwd/database
 ```
 
-## Supported Databases
+## Setup
 
 ```js
-
-const lowDb = require('@fwd/database')('lowdb') // stable, json flat file
-
-const localDb = require('@fwd/database')('local') // default, json multi-file.
+const lowDb = require('@fwd/database')('lowdb') // json flat file
+const localDb = require('@fwd/database')('local') // json multi-file, default.
 
 const mongoDb = require('@fwd/database')('mongodb') // coming soon
-
 const mySQL = require('@fwd/database')('mysql') // coming soon
-
 ```
 
+## Use
 ```js
 
-// initalize using the local plugin
+// initalize database
 const database = require('@fwd/database')('local')
 
 ;(async () => {
   	
 	// create user
 	await database.create('users', {
-		fname: "Kimbal",
-		company: "Tesla"
+		fname: "Leeroy",
+		company: "WoW"
 	})
 	
 	// find user
 	var user = await database.findOne('users', {
-		fname: "Kimbal"
+		fname: "Leeroy"
 	})
 	
 	// update user
 	await database.update('users', user.id, {
-	   company: "Tesla, SpaceX"
+	   lname: "Jenkins"
 	})
 	
 	// delete user
