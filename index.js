@@ -13,7 +13,9 @@ module.exports = (plugin, config) => {
 		if (plugin === 'lowdb') return require('./plugins/lowdb')(config)
 		if (plugin === 'local') return require('./plugins/local')(config)
 		if (plugin === 'mongodb') return require('./plugins/mongodb')(config)
-		if (plugin === 'sqlite3') return require('./plugins/sqlite3')(config)
+		if (plugin === 'sqlite3' || plugin === 'sqlite') {
+			return require('./plugins/sqlite3')(config)
+		}
 		if (plugin === 'mariadb') return require('./plugins/mariadb')(config)
 		if (plugin === 'mysql') return require('./plugins/mysql')(config)
 		if (plugin === 'cloud' || plugin === 'remote') return require('./plugins/cloud')(config)
