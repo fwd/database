@@ -37,6 +37,19 @@ module.exports = (config) => {
     const db = new sqlite3.Database(base_path);
 
     return {
+        
+        raw(query) {
+            return new Promise((resolve, reject) => {
+                db.all(query, (err, rows) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(rows);
+                    }
+                });
+            });
+        },
+
         list(model) {
             return new Promise((resolve, reject) => {
                 const query = `SELECT * FROM ${model}`;
