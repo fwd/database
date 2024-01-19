@@ -2,8 +2,14 @@
 
 ## Install
 
+Latest Version
 ```sh
 npm install fwd/database
+```
+
+Stable Version
+```sh
+npm install @fwd/database
 ```
 
 ## Setup
@@ -11,6 +17,7 @@ npm install fwd/database
 ```js
 const lowDb = require('@fwd/database')('lowdb') // json flat file
 const localDb = require('@fwd/database')('local') // json multi-file
+const mongoDb = require('@fwd/database')('sqlite') // in development
 const mongoDb = require('@fwd/database')('mongodb') // coming soon
 const mySQL = require('@fwd/database')('mysql') // coming soon
 ```
