@@ -1,10 +1,10 @@
-const fs = require('fs');
-const sqlite3 = require('sqlite3');
+const fs = require('fs')
+const sqlite3 = require('sqlite3')
 
 function uuid() {
-    return `xxxxxxxxxxx`.replace(/[xy]/g, function(c) {
+    return `xxxxxxxxxxxxxxxx`.replace(/[xy]/g, function(c) {
         var r = Math.random() * 16 | 0,
-            v = c == 'x' ? r : (r & 0x3 | 0x8);
+            v = c == 'x' ? r : (r & 0x3 | 0x8)
         return v.toString(16)
     })
 }
@@ -13,7 +13,7 @@ module.exports = (config) => {
 
     if (typeof config === 'string') config = { name: config }
 
-    const base_path = config.name || config.filepath || config.base_path || config.basepath || config.namespace || config.path;
+    const base_path = config.file || config.name || config.filepath || config.base_path || config.basepath || config.database || config.namespace || config.path || 'database.sqlite'
     
     config.created_key = config.created_key || 'created_at'
     config.updated_key = config.updated_key || 'updated_at'
@@ -21,221 +21,268 @@ module.exports = (config) => {
     if (base_path !== 'memory' && base_path !== ':memory:') {
      
         if (!fs.existsSync(base_path)) {
-          // If the file doesn't exist, create it synchronously
           try {
-            fs.writeFileSync(base_path, '', 'utf-8');
-            // console.log('File created successfully');
-          } catch (err) {
-            // console.error('Error creating file:', err);
-          }
+            fs.writeFileSync(base_path, '', 'utf-8')
+          } catch (err) {}
         }
 
     }
 
     if (base_path === 'memory') base_path = ':memory:'
 
-    const db = new sqlite3.Database(base_path);
+    const db = new sqlite3.Database(base_path)
 
-    return {
+    const runMigrations = async () => {
+        if (config.migrations && Array.isArray(config.migrations)) {
+            for (const migration of config.migrations) {
+                try {
+                    await migration(db)
+                } catch (err) {
+                    console.error('Error running migration:', err)
+                }
+            }
+        }
+    }
+
+    const createTable = async (model, columns) => {
+        return new Promise((resolve, reject) => {
+            const columnDefinitions = columns.map(column => `${column} TEXT`).join(', ')
+            const createTableQuery = `CREATE TABLE "${model}" (id INTEGER PRIMARY KEY, ${columnDefinitions})`
+            db.run(createTableQuery, async (err) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    try {
+                        await runMigrations()
+                        resolve()
+                    } catch (err) {
+                        reject(err)
+                    }
+                }
+            })
+        })
+    }
+
+    const methods = {
         
         raw(query, params) {
             return new Promise((resolve, reject) => {
                 db.all(query, params, (err, rows) => {
                     if (err) {
-                        reject(err);
+                        reject(err)
                     } else {
-                        resolve(rows);
+                        resolve(rows)
                     }
-                });
-            });
+                })
+            })
         },
 
         list(model) {
             return new Promise((resolve, reject) => {
-                const query = `SELECT * FROM ${model}`;
+                const query = `SELECT * FROM ${model}`
                 db.all(query, (err, rows) => {
                     if (err) {
-                        reject(err);
+                        reject(err)
                     } else {
-                        resolve(rows);
+                        resolve(rows)
                     }
-                });
-            });
-        },
-
-        get(model, id) {
-            return new Promise((resolve, reject) => {
-                const query = `SELECT * FROM ${model} WHERE id = ?`;
-                db.get(query, [id], (err, row) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(row);
-                    }
-                });
-            });
+                })
+            })
         },
 
         findFirst(model, query) {
             return new Promise((resolve, reject) => {
-                const keys = Object.keys(query);
-                const conditions = keys.map(key => `${key} = ?`).join(' AND ');
-                const values = keys.map(key => query[key]);
-
-                const queryString = `SELECT * FROM ${model} WHERE ${conditions} LIMIT 1`;
-
-                db.get(queryString, values, (err, row) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(row);
-                    }
-                });
-            });
+                if (!query || Object.keys(query).length === 0) {
+                    const queryString = `SELECT * FROM ${model} LIMIT 1`
+                    db.get(queryString, (err, row) => {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            resolve(row)
+                        }
+                    })
+                } else {
+                    const keys = Object.keys(query)
+                    const conditions = keys.map(key => `${key} = ?`).join(' AND ')
+                    const values = keys.map(key => query[key])
+                    const queryString = `SELECT * FROM ${model} WHERE ${conditions} LIMIT 1`
+                    db.get(queryString, values, (err, row) => {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            resolve(row)
+                        }
+                    })
+                }
+            })
         },
 
         findLast(model, query) {
             return new Promise((resolve, reject) => {
-                const keys = Object.keys(query);
-                const conditions = keys.map(key => `${key} = ?`).join(' AND ');
-                const values = keys.map(key => query[key]);
-
-                const queryString = `SELECT * FROM ${model} WHERE ${conditions} ORDER BY id DESC LIMIT 1`;
-
+                const keys = Object.keys(query)
+                const conditions = keys.map(key => `${key} = ?`).join(' AND ')
+                const values = keys.map(key => query[key])
+                const queryString = `SELECT * FROM ${model} WHERE ${conditions} ORDER BY id DESC LIMIT 1`
                 db.get(queryString, values, (err, row) => {
                     if (err) {
-                        reject(err);
+                        reject(err)
                     } else {
-                        resolve(row);
+                        resolve(row)
                     }
-                });
-            });
+                })
+            })
         },
 
         findOne(model, query) {
             return new Promise((resolve, reject) => {
-
-                if (typeof query === 'number') query = { id: query }
-
-                const keys = Object.keys(query);
-                const conditions = keys.map(key => `${key} = ?`).join(' AND ');
-                const values = keys.map(key => query[key]);
-
-                const queryString = `SELECT * FROM ${model} WHERE ${conditions} LIMIT 1`;
-
-                db.get(queryString, values, (err, row) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(row);
-                    }
-                });
-            });
+                if (!query || Object.keys(query).length === 0) {
+                    const queryString = `SELECT * FROM ${model} LIMIT 1`
+                    db.get(queryString, (err, row) => {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            resolve(row)
+                        }
+                    })
+                } else {
+                    if (typeof query === 'number') query = { id: query }
+                    const keys = Object.keys(query)
+                    const conditions = keys.map(key => `${key} = ?`).join(' AND ')
+                    const values = keys.map(key => query[key])
+                    const queryString = `SELECT * FROM ${model} WHERE ${conditions} LIMIT 1`
+                    db.get(queryString, values, (err, row) => {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            resolve(row)
+                        }
+                    })
+                }
+            })
         },
 
-        paginate(model, query) {
-            // You would need to implement pagination logic here based on your specific requirements.
-            // This could involve using LIMIT and OFFSET in your SQL queries.
-        },
+        // TODO
+        // paginate(model, query) {
+        // },
 
         find(model, query) {
             return new Promise((resolve, reject) => {
-                const keys = Object.keys(query);
-                const conditions = keys.map(key => `${key} = ?`).join(' AND ');
-                const values = keys.map(key => query[key]);
-
-                const queryString = `SELECT * FROM ${model} WHERE ${conditions}`;
-
-                db.all(queryString, values, (err, rows) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(rows);
-                    }
-                });
-            });
+                if (!query || Object.keys(query).length === 0) {
+                    const queryString = `SELECT * FROM ${model}`
+                    db.all(queryString, (err, rows) => {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            resolve(rows)
+                        }
+                    })
+                } else {
+                    const keys = Object.keys(query)
+                    const conditions = keys.map(key => `${key} = ?`).join(' AND ')
+                    const values = keys.map(key => query[key])
+                    const queryString = `SELECT * FROM ${model} WHERE ${conditions}`
+                    db.all(queryString, values, (err, rows) => {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            resolve(rows)
+                        }
+                    })
+                }
+            })
         },
 
         create(model, value) {
             var self = this
             return new Promise((resolve, reject) => {
-                if (value && !value.id) value.uuid = uuid()
+                if (value && !value.id && !value.uuid) value.uuid = uuid()
                 if (value && !value[config.created_key]) value[config.created_key] = String(new Date().getTime())
                 if (value && !value[config.updated_key]) value[config.updated_key] = String(new Date().getTime())
-                const keys = Object.keys(value);
-                const placeholders = keys.map(() => '?').join(', ');
-                const queryString = `INSERT INTO "${model}" (${keys.join(', ')}) VALUES (${placeholders})`;
+                const keys = Object.keys(value)
+                const placeholders = keys.map(() => '?').join(', ')
+                const queryString = `INSERT INTO "${model}" (${keys.join(', ')}) VALUES (${placeholders})`
                 db.run(queryString, Object.values(value), function (err) {
                     if (err) {
-                        // Check if the error is related to "no such table"
                         if (err.message.includes("no such table")) {
-                            // If the table doesn't exist, create it and retry the insertion
                             self.createTable(model, keys)
                                 .then(() => {
-                                    // Retry the insertion after creating the table
-                                    return self.create(model, value);
+                                    return self.create(model, value)
                                 })
                                 .then(resolve)
-                                .catch(reject);
+                                .catch(reject)
                         } else {
-                            // If it's not a "no such table" error, reject with the original error
-                            reject(err);
+                            reject(err)
                         }
                     } else {
                         value.id = this.lastID
-                        resolve(value);
+                        resolve(value)
                     }
-                });
-            });
+                })
+            })
         },
 
-        createTable(model, columns) {
-            return new Promise((resolve, reject) => {
-                const columnDefinitions = columns.map(column => `${column} TEXT`).join(', ');
-                const createTableQuery = `CREATE TABLE "${model}" (id INTEGER PRIMARY KEY, ${columnDefinitions})`;
-
-                db.run(createTableQuery, (err) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve();
-                    }
-                });
-            });
-        },
+        createTable,
 
         update(model, id, update) {
             return new Promise((resolve, reject) => {
                 update[config.updated_key] = new Date().getTime()
-                const keys = Object.keys(update);
-                const setValues = keys.map(key => `${key} = ?`).join(', ');
-                const queryString = `UPDATE ${model} SET ${setValues} WHERE id = ?`;
+                const keys = Object.keys(update)
+                const setValues = keys.map(key => `${key} = ?`).join(', ')
+                const queryString = `UPDATE ${model} SET ${setValues} WHERE id = ?`
                 db.run(queryString, [...Object.values(update), id], function (err) {
                     if (err) {
-                        reject(err);
+                        reject(err)
                     } else {
-                        resolve({ affectedRows: this.changes });
+                        resolve({ affectedRows: this.changes })
                     }
-                });
-            });
+                })
+            })
         },
 
         set(model, value) {
-            // You need to implement logic to set a value in the SQLite database based on your requirements.
+            return new Promise((resolve, reject) => {
+                const id = value.id
+                if (!id) {
+                    reject(new Error('ID is required to update the record.'))
+                    return
+                }
+                const update = { ...value }
+                delete update.id // Remove id from update object
+                update[config.updated_key] = new Date().getTime()
+                const keys = Object.keys(update)
+                const setValues = keys.map(key => `${key} = ?`).join(', ')
+                const queryString = `UPDATE ${model} SET ${setValues} WHERE id = ?`
+                db.run(queryString, [...Object.values(update), id], function(err) {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve({ affectedRows: this.changes })
+                    }
+                })
+            })
         },
 
         remove(model, id) {
             return new Promise((resolve, reject) => {
-                const queryString = `DELETE FROM ${model} WHERE id = ?`;
-
+                const queryString = `DELETE FROM ${model} WHERE id = ?`
                 db.run(queryString, [id], function (err) {
                     if (err) {
-                        reject(err);
+                        reject(err)
                     } else {
-                        resolve({ affectedRows: this.changes });
+                        resolve({ affectedRows: this.changes })
                     }
-                });
-            });
+                })
+            })
         },
-    };
-};
+
+    }
+
+    // aliases
+    methods.get = methods.find
+    methods.delete = methods.remove
+    methods.getFirst = methods.findFirst
+    methods.getLast = methods.findLast
+
+    return methods
+
+}

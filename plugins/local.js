@@ -1,7 +1,8 @@
+const cache = require('./cache')
+
 const fs = require('fs')
 const _ = require('lodash')
 const path = require('path')
-const cache = require('@fwd/cache')
 const dirtyJSON = require('dirty-json')
 const queryJSON = require('json-query')
 
