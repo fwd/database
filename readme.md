@@ -38,7 +38,7 @@ Think of `@fwd/database` as your universal database adapter. Whether you're buil
 **ACID:** Full ACID compliance with transactions
 **Scaling:** Up to 281TB, handles concurrent reads well
 
-### 📄 **LowDB** {#lowdb}
+### 📄 **LowDB** {#lowdb} *(Deprecated)*
 *Lightweight JSON database with Lodash power*
 
 **What it is:** Single JSON file with Lodash-powered querying
@@ -47,6 +47,7 @@ Think of `@fwd/database` as your universal database adapter. Whether you're buil
 **Performance:** Fast for small datasets, simple queries
 **ACID:** Basic consistency, no transactions
 **Scaling:** Limited by single file size and memory
+**Status:** ⚠️ **Deprecated** - Use [Local Storage](#local-storage) instead
 
 ### 🍃 **MongoDB** {#mongodb} *(Coming Soon)*
 *Document-based NoSQL database*
@@ -82,7 +83,7 @@ Think of `@fwd/database` as your universal database adapter. Whether you're buil
 Jump directly to any database type:
 - [🏠 Local Storage](#local-storage) - NASA-grade file storage
 - [🗄️ SQLite3](#sqlite3) - Embedded SQL database  
-- [📄 LowDB](#lowdb) - Lightweight JSON database
+- [📄 LowDB](#lowdb) - Lightweight JSON database *(Deprecated)*
 - [🍃 MongoDB](#mongodb) - Document NoSQL *(Coming Soon)*
 - [🐬 MySQL](#mysql) - Popular relational DB *(Coming Soon)*
 - [🐘 PostgreSQL](#postgresql) - Advanced SQL DB *(Coming Soon)*
@@ -114,7 +115,7 @@ const db = require('@fwd/database')('local')
 // SQLite (great for production)
 const db = require('@fwd/database')('sqlite3')
 
-// LowDB (JSON-based, simple)
+// LowDB (deprecated - use local instead)
 const db = require('@fwd/database')('lowdb')
 ```
 
@@ -215,17 +216,64 @@ const db = require('@fwd/database')('sqlite3')
 **Pros:** Production-ready, ACID compliant, supports migrations
 **Cons:** Requires SQLite3 dependency
 
-### 📄 LowDB
-**Perfect for:** Simple projects, configuration storage, small datasets
+### 📄 LowDB *(Deprecated)*
+**Perfect for:** ~~Simple projects, configuration storage, small datasets~~ **Use Local Storage instead**
 
 ```javascript
 const db = require('@fwd/database')('lowdb')
 // Creates a single JSON file for all data
-// Great for configuration and simple data storage
+// ⚠️ DEPRECATED: Use 'local' instead for better performance and reliability
 ```
 
-**Pros:** Simple JSON storage, lightweight, easy to backup
-**Cons:** Single file can become large, not ideal for complex queries
+**Pros:** ~~Simple JSON storage, lightweight, easy to backup~~ **Deprecated**
+**Cons:** ~~Single file can become large, not ideal for complex queries~~ **Use Local Storage instead**
+
+**⚠️ Migration Notice:** LowDB is deprecated. Please migrate to [Local Storage](#local-storage) for better performance, reliability, and NASA-grade features.
+
+### 🔄 **LowDB Migration Guide**
+
+If you're currently using LowDB, here's how to migrate to Local Storage:
+
+```javascript
+// Before (LowDB - DEPRECATED)
+const oldDb = require('@fwd/database')('lowdb', {
+  filepath: './data',
+  database: 'app.json'
+})
+
+// After (Local Storage - RECOMMENDED)
+const newDb = require('@fwd/database')('local', {
+  path: './data',
+  namespace: 'app'
+})
+
+// Migration script
+const migrateFromLowDB = async () => {
+  // Read all data from LowDB
+  const allData = await oldDb.find('all')
+  
+  // Migrate each collection
+  for (const collection of Object.keys(allData)) {
+    const items = allData[collection]
+    if (Array.isArray(items)) {
+      for (const item of items) {
+        await newDb.create(collection, item)
+      }
+    } else {
+      await newDb.set(collection, items)
+    }
+  }
+  
+  console.log('✅ Migration completed!')
+}
+```
+
+**Benefits of migrating to Local Storage:**
+- 🛡️ **NASA-grade reliability** with checksums and atomic operations
+- 🔒 **Enhanced security** with input validation and path protection
+- ⚡ **Better performance** with optimized file operations
+- 🧠 **Memory safety** with proper resource management
+- 🔄 **Idempotent operations** for radiation-resistant environments
 
 ---
 
@@ -245,10 +293,11 @@ const db = require('@fwd/database')('sqlite3', {
   file: './my-app.sqlite'      // Database file location
 })
 
-// LowDB with custom file
+// LowDB with custom file (DEPRECATED)
 const db = require('@fwd/database')('lowdb', {
   filepath: './data',          // Directory for database file
   database: 'my-app.json'      // Database filename
+  // ⚠️ DEPRECATED: Use 'local' instead
 })
 ```
 
@@ -745,10 +794,16 @@ class UserManager {
 }
 ```
 
-### Example 3: Configuration Management
+### Example 3: Configuration Management *(Updated)*
 
 ```javascript
+// ⚠️ DEPRECATED: Use Local Storage instead
 const database = require('@fwd/database')('lowdb')
+
+// ✅ RECOMMENDED: Use Local Storage
+const database = require('@fwd/database')('local', {
+  namespace: 'config'
+})
 
 class ConfigManager {
   async setConfig(key, value) {
