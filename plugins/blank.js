@@ -10,7 +10,6 @@ module.exports = (config) => {
         findFirst(model, query) {},
         findLast(model, query) {},
         findOne(model, query) {},
-        pluck(model, query) {},
         paginate(model, query) {},
         findOne(mode, query) {},
         find(model, query) {},

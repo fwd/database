@@ -121,8 +121,9 @@ function walk(dir) {
 }
 
 function allowed(string, allowed) {
-    var filename = path.join(allowed, string);
-    if (filename.indexOf(allowed) !== 0) {
+    var filename = path.resolve(path.join(allowed, string));
+    var allowedPath = path.resolve(allowed);
+    if (filename.indexOf(allowedPath) !== 0) {
         return false
     }
     return true
@@ -140,7 +141,12 @@ module.exports = (config) => {
 
             var base = config.path
 
-            if (!await check(base)) fs.mkdirSync(base)
+            try {
+                if (!await check(base)) fs.mkdirSync(base, { recursive: true })
+            } catch (error) {
+                // If we can't create the directory, it's an invalid path
+                return false
+            }
 
             var namespace = `${base}/${config.namespace}`
 
@@ -376,7 +382,7 @@ module.exports = (config) => {
 
             })
         },
-        pluck(model, id, key) {
+        pluck(model, id, fieldKey) {
             var self = this
             return new Promise(async (resolve, reject) => {
 
@@ -398,7 +404,7 @@ module.exports = (config) => {
 
                 var item = await read(key)
 
-                delete item[key]
+                delete item[fieldKey]
 
                 resolve(await write(key, item))
 
@@ -458,7 +464,8 @@ module.exports = (config) => {
 
                 if (Array.isArray(value) && !value.length) {
                     
-                    resolve( fs.unlink(key, function() {}) ) // remove `${config.default_key}` file
+                    fs.unlink(key, function() {}) // remove `${config.default_key}` file
+                    resolve()
 
                 } else {
 
@@ -466,7 +473,8 @@ module.exports = (config) => {
                         if (JSON.stringify(value)) resolve( await write(key, value) ) 
                         
                     } catch(e) {
-                        resolve( await write(key, value, true) ) // write without JSON stringifying
+                        // For circular references or other non-serializable data, convert to string
+                        resolve( await write(key, String(value), true) ) // write as string
                     }
 
                 }

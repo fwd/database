@@ -13,11 +13,42 @@
   "bugs": {
     "url": "https://github.com/fwd/database/issues"
   },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:local": "jest --testPathPattern=local",
+    "test:lowdb": "jest --testPathPattern=lowdb",
+    "test:sqlite3": "jest --testPathPattern=sqlite3",
+    "test:cache": "jest --testPathPattern=cache",
+    "test:integration": "jest --testPathPattern=integration"
+  },
   "dependencies": {
     "dirty-json": "^0.9.2",
     "json-query": "^2.2.2",
     "lodash": "^4.17.21",
     "lowdb": "^1.0.0",
     "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "fs-extra": "^11.1.1",
+    "rimraf": "^5.0.5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/node_modules/**",
+      "!**/test/**",
+      "!**/coverage/**"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"],
+    "testMatch": [
+      "**/test/**/*.test.js"
+    ],
+    "setupFilesAfterEnv": ["<rootDir>/test/setup.js"]
   }
 }

@@ -1,4 +1,4 @@
-database.sqlite
-database.json
+*.sqlite
+*.json
 .data
-test.js
+non-existent-path
