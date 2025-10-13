@@ -23,7 +23,7 @@ Think of `@fwd/database` as your universal database adapter. Whether you're buil
 
 **What it is:** Individual JSON files for each record, stored in your project directory
 **Best for:** Development, prototyping, small projects, mission-critical space applications
-**Storage:** `./data/` directory with separate files per record
+**Storage:** `.data/` directory with separate files per record
 **Performance:** Fast for small datasets, human-readable files
 **ACID:** Basic file-level consistency
 **Scaling:** Limited by file system performance
@@ -198,7 +198,7 @@ const database = require('@fwd/database')('local')
 ```javascript
 const db = require('@fwd/database')('local')
 // Creates individual JSON files for each collection
-// Files stored in ./data/ by default
+// Files stored in .data/ by default
 ```
 
 **Pros:** Zero setup, human-readable files, perfect for development
@@ -276,13 +276,13 @@ If you're currently using LowDB, here's how to migrate to Local Storage:
 ```javascript
 // Before (LowDB - DEPRECATED)
 const oldDb = require('@fwd/database')('lowdb', {
-  filepath: './data',
+  filepath: '.data',
   database: 'app.json'
 })
 
 // After (Local Storage - RECOMMENDED)
 const newDb = require('@fwd/database')('local', {
-  path: './data',
+  path: '.data',
   namespace: 'app'
 })
 
@@ -334,7 +334,7 @@ const db = require('@fwd/database')('sqlite3', {
 
 // LowDB with custom file (DEPRECATED)
 const db = require('@fwd/database')('lowdb', {
-  filepath: './data',          // Directory for database file
+  filepath: '.data',          // Directory for database file
   database: 'my-app.json'      // Database filename
   // ⚠️ DEPRECATED: Use 'local' instead
 })
@@ -964,7 +964,7 @@ const db = require('@fwd/database')('sqlite3', { file: './my-app.sqlite' })
 **Q: Permission errors on file creation**
 ```bash
 # Make sure the directory is writable
-chmod 755 ./data
+chmod 755 .data
 ```
 
 **Q: SQLite database locked**
