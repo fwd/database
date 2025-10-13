@@ -145,9 +145,7 @@ const db = require('@fwd/database')('lowdb', {
 ```javascript
 const db = require('@fwd/database')('sqlite3', {
   file: './production.sqlite',
-  migrationsPath: './migrations',           // Primary migrations directory
-  migrations_dir: './db/migrations',       // Alternative naming (snake_case)
-  migrationsDir: './database/migrations',   // Alternative naming (camelCase)
+  migrations: './migrations',           // Primary migrations (camelCase)
   allowModifiedMigrations: false,          // Prevent running modified migrations
   debug: true,                             // Enable debug logging for migrations
   migrations: [                            // Legacy: inline migrations (still supported)
@@ -168,9 +166,7 @@ const db = require('@fwd/database')('sqlite3', {
 The migration system supports multiple configuration options with intelligent fallbacks:
 
 **Priority Order:**
-1. `migrationsPath` - Primary configuration option
-2. `migrations_dir` - Alternative snake_case naming
-3. `migrationsDir` - Alternative camelCase naming  
+1. `migrations` - Primary configuration option
 4. `./migrations` - Default fallback
 
 **Automatic Fallback Paths:**
@@ -187,18 +183,18 @@ If the configured path doesn't exist, the system will automatically search for m
 // Custom migrations directory
 const db = require('@fwd/database')('sqlite3', {
   file: './app.sqlite',
-  migrationsPath: './database/migrations'
+  migrations: './database/migrations'
 })
 
 // Alternative naming conventions
 const db = require('@fwd/database')('sqlite3', {
   file: './app.sqlite',
-  migrations_dir: './db/migrations'  // snake_case
+  migrations: './db/migrations'  // snake_case
 })
 
 const db = require('@fwd/database')('sqlite3', {
   file: './app.sqlite',
-  migrationsDir: './database/migrations'  // camelCase
+  migrations: './database/migrations'  // camelCase
 })
 
 // Debug mode to see path resolution
@@ -208,7 +204,7 @@ const db = require('@fwd/database')('sqlite3', {
 })
 
 // Check current migrations path
-console.log('Migrations path:', db.getMigrationsPath())
+console.log('Migrations path:', db.getmigrations())
 ```
 
 ---
@@ -284,7 +280,7 @@ await database.remove('users', userId)
 ```javascript
 const database = require('@fwd/database')('sqlite3', {
   file: './my-app.sqlite',
-  migrationsPath: './migrations'  // Directory for migration files
+  migrations: './migrations'  // Directory for migration files
 })
 
 // Migrations run automatically when you first create data!
@@ -416,7 +412,7 @@ module.exports = {
 // Test migration in development
 const testDb = database('sqlite3', {
   file: ':memory:',  // In-memory database for testing
-  migrationsPath: './migrations'
+  migrations: './migrations'
 })
 
 await testDb.runMigrations()

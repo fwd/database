@@ -98,10 +98,7 @@ module.exports = (config) => {
         // 3. config.migrationsDir (camelCase alternative)
         // 4. Default './migrations'
         
-        return config.migrationsPath || 
-               config.migrations_dir || 
-               config.migrationsDir || 
-               './migrations'
+        return config.migrations || './migrations'
     }
 
     const loadMigrationFiles = async () => {
