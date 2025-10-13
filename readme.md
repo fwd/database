@@ -145,7 +145,12 @@ const db = require('@fwd/database')('lowdb', {
 ```javascript
 const db = require('@fwd/database')('sqlite3', {
   file: './production.sqlite',
-  migrations: [
+  migrationsPath: './migrations',           // Primary migrations directory
+  migrations_dir: './db/migrations',       // Alternative naming (snake_case)
+  migrationsDir: './database/migrations',   // Alternative naming (camelCase)
+  allowModifiedMigrations: false,          // Prevent running modified migrations
+  debug: true,                             // Enable debug logging for migrations
+  migrations: [                            // Legacy: inline migrations (still supported)
     // Run migrations on startup
     async (db) => {
       await db.run(`CREATE TABLE IF NOT EXISTS users (
@@ -156,6 +161,54 @@ const db = require('@fwd/database')('sqlite3', {
     }
   ]
 })
+```
+
+### 🔧 Migration Path Configuration
+
+The migration system supports multiple configuration options with intelligent fallbacks:
+
+**Priority Order:**
+1. `migrationsPath` - Primary configuration option
+2. `migrations_dir` - Alternative snake_case naming
+3. `migrationsDir` - Alternative camelCase naming  
+4. `./migrations` - Default fallback
+
+**Automatic Fallback Paths:**
+If the configured path doesn't exist, the system will automatically search for migrations in:
+- `./migrations`
+- `./db/migrations`
+- `./database/migrations`
+- `{project_root}/migrations`
+- `{project_root}/db/migrations`
+
+**Examples:**
+
+```javascript
+// Custom migrations directory
+const db = require('@fwd/database')('sqlite3', {
+  file: './app.sqlite',
+  migrationsPath: './database/migrations'
+})
+
+// Alternative naming conventions
+const db = require('@fwd/database')('sqlite3', {
+  file: './app.sqlite',
+  migrations_dir: './db/migrations'  // snake_case
+})
+
+const db = require('@fwd/database')('sqlite3', {
+  file: './app.sqlite',
+  migrationsDir: './database/migrations'  // camelCase
+})
+
+// Debug mode to see path resolution
+const db = require('@fwd/database')('sqlite3', {
+  file: './app.sqlite',
+  debug: true  // Shows which path is being used
+})
+
+// Check current migrations path
+console.log('Migrations path:', db.getMigrationsPath())
 ```
 
 ---
@@ -218,6 +271,227 @@ await database.delete('users', userId)
 // Alternative delete method
 await database.remove('users', userId)
 // Same as delete()
+```
+
+---
+
+## 🔄 Database Migrations (SQLite Only)
+
+**Say goodbye to migration headaches!** The SQLite plugin includes a powerful migration system that automatically detects and runs new migrations.
+
+### 🚀 Quick Migration Setup
+
+```javascript
+const database = require('@fwd/database')('sqlite3', {
+  file: './my-app.sqlite',
+  migrationsPath: './migrations'  // Directory for migration files
+})
+
+// Migrations run automatically when you first create data!
+const user = await database.create('users', { name: 'John' })
+// ✅ Migrations executed automatically
+```
+
+### 📁 Migration Files
+
+Create migration files in your `migrations` directory. Both JavaScript and SQL files are supported:
+
+#### JavaScript Migrations
+
+```javascript
+// migrations/001_create_users_table.js
+module.exports = {
+    up: async (db) => {
+        await new Promise((resolve, reject) => {
+            db.run(`
+                CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    email TEXT UNIQUE NOT NULL,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                )
+            `, (err) => {
+                if (err) reject(err)
+                else resolve()
+            })
+        })
+    },
+    
+    down: async (db) => {
+        await new Promise((resolve, reject) => {
+            db.run('DROP TABLE IF EXISTS users', (err) => {
+                if (err) reject(err)
+                else resolve()
+            })
+        })
+    }
+}
+```
+
+#### SQL Migrations
+
+```sql
+-- migrations/002_create_products_table.sql
+CREATE TABLE IF NOT EXISTS products (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    price REAL NOT NULL,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_products_name ON products(name);
+```
+
+### 🛠️ Migration Management
+
+```javascript
+// Check migration status
+const status = await database.getMigrationStatus()
+console.log('Executed migrations:', status.executed.length)
+console.log('Pending migrations:', status.pending.length)
+console.log('Modified migrations:', status.modified.length)
+
+// Create a new migration
+const migrationPath = await database.createMigration('add_user_roles')
+console.log('Created migration:', migrationPath)
+
+// Run migrations manually
+await database.runMigrations()
+
+// Rollback a migration (if it has a down function)
+await database.rollbackMigration('001_create_users_table.js')
+```
+
+### 🔒 Migration Safety Features
+
+**Automatic Checksum Validation:**
+- Detects if migration files have been modified since execution
+- Prevents accidental re-running of modified migrations
+- Configurable with `allowModifiedMigrations: true`
+
+**Execution Tracking:**
+- Tracks which migrations have been executed
+- Stores execution timestamps and file checksums
+- Prevents duplicate execution
+
+**Error Handling:**
+- Graceful error handling with detailed logging
+- Failed migrations don't break your app
+- Clear error messages for debugging
+
+### 📋 Migration Best Practices
+
+#### 1. Use Descriptive Names
+```javascript
+// ✅ Good
+await database.createMigration('add_user_email_verification')
+await database.createMigration('create_product_categories_table')
+
+// ❌ Avoid
+await database.createMigration('update')
+await database.createMigration('fix')
+```
+
+#### 2. Always Include Down Migrations
+```javascript
+module.exports = {
+    up: async (db) => {
+        // Add your changes
+        await db.run('ALTER TABLE users ADD COLUMN verified INTEGER DEFAULT 0')
+    },
+    
+    down: async (db) => {
+        // Remove your changes
+        // Note: SQLite doesn't support DROP COLUMN easily
+        // You might need to recreate the table
+        console.log('⚠️ Manual cleanup required for SQLite')
+    }
+}
+```
+
+#### 3. Test Your Migrations
+```javascript
+// Test migration in development
+const testDb = database('sqlite3', {
+  file: ':memory:',  // In-memory database for testing
+  migrationsPath: './migrations'
+})
+
+await testDb.runMigrations()
+// Test your app logic here
+```
+
+### 🔄 Migration Workflow Example
+
+```javascript
+// 1. Development: Create migration
+const migrationPath = await database.createMigration('add_user_profiles')
+// Creates: migrations/2024-01-15T10-30-00_add_user_profiles.js
+
+// 2. Edit the migration file
+// migrations/2024-01-15T10-30-00_add_user_profiles.js
+module.exports = {
+    up: async (db) => {
+        await db.run(`
+            CREATE TABLE user_profiles (
+                id INTEGER PRIMARY KEY,
+                user_id INTEGER NOT NULL,
+                bio TEXT,
+                avatar_url TEXT,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            )
+        `)
+    },
+    
+    down: async (db) => {
+        await db.run('DROP TABLE user_profiles')
+    }
+}
+
+// 3. Deploy: Migrations run automatically
+const user = await database.create('users', { name: 'John' })
+// ✅ Migration executed automatically
+
+// 4. Check status
+const status = await database.getMigrationStatus()
+console.log(`✅ ${status.executed.length} migrations executed`)
+console.log(`⏳ ${status.pending.length} migrations pending`)
+```
+
+### 🚨 Troubleshooting Migrations
+
+**Q: "Modified migrations detected" error**
+```javascript
+// Option 1: Allow modified migrations (use with caution)
+const db = database('sqlite3', {
+  allowModifiedMigrations: true
+})
+
+// Option 2: Create a new migration instead of modifying existing ones
+```
+
+**Q: Migration fails to run**
+```javascript
+// Check migration status
+const status = await database.getMigrationStatus()
+console.log('Pending migrations:', status.pending)
+console.log('Modified migrations:', status.modified)
+
+// Run migrations manually with error details
+try {
+  await database.runMigrations()
+} catch (error) {
+  console.error('Migration error:', error.message)
+}
+```
+
+**Q: Need to rollback a migration**
+```javascript
+// Only works if migration has a 'down' function
+await database.rollbackMigration('001_create_users_table.js')
 ```
 
 ---
