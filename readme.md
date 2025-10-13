@@ -18,7 +18,7 @@ Think of `@fwd/database` as your universal database adapter. Whether you're buil
 
 ## 📚 Database Type Glossary
 
-### 🏠 **Local Storage**
+### 🏠 **Local Storage** {#local-storage}
 *File-based JSON storage with NASA-grade reliability*
 
 **What it is:** Individual JSON files for each record, stored in your project directory
@@ -28,7 +28,7 @@ Think of `@fwd/database` as your universal database adapter. Whether you're buil
 **ACID:** Basic file-level consistency
 **Scaling:** Limited by file system performance
 
-### 🗄️ **SQLite3**
+### 🗄️ **SQLite3** {#sqlite3}
 *Embedded SQL database with full ACID compliance*
 
 **What it is:** Single-file SQL database with complete SQL support
@@ -38,7 +38,7 @@ Think of `@fwd/database` as your universal database adapter. Whether you're buil
 **ACID:** Full ACID compliance with transactions
 **Scaling:** Up to 281TB, handles concurrent reads well
 
-### 📄 **LowDB**
+### 📄 **LowDB** {#lowdb}
 *Lightweight JSON database with Lodash power*
 
 **What it is:** Single JSON file with Lodash-powered querying
@@ -48,7 +48,7 @@ Think of `@fwd/database` as your universal database adapter. Whether you're buil
 **ACID:** Basic consistency, no transactions
 **Scaling:** Limited by single file size and memory
 
-### 🍃 **MongoDB** *(Coming Soon)*
+### 🍃 **MongoDB** {#mongodb} *(Coming Soon)*
 *Document-based NoSQL database*
 
 **What it is:** Distributed document database with flexible schemas
@@ -58,7 +58,7 @@ Think of `@fwd/database` as your universal database adapter. Whether you're buil
 **ACID:** Eventual consistency, limited transactions
 **Scaling:** Horizontal scaling across multiple servers
 
-### 🐬 **MySQL** *(Coming Soon)*
+### 🐬 **MySQL** {#mysql} *(Coming Soon)*
 *Popular relational database with enterprise features*
 
 **What it is:** Full-featured relational database management system
@@ -68,7 +68,7 @@ Think of `@fwd/database` as your universal database adapter. Whether you're buil
 **ACID:** Full ACID compliance with advanced features
 **Scaling:** Vertical and horizontal scaling options
 
-### 🐘 **PostgreSQL** *(Coming Soon)*
+### 🐘 **PostgreSQL** {#postgresql} *(Coming Soon)*
 *Advanced open-source relational database*
 
 **What it is:** Feature-rich SQL database with advanced data types
@@ -77,6 +77,15 @@ Think of `@fwd/database` as your universal database adapter. Whether you're buil
 **Performance:** Excellent for complex queries and data analysis
 **ACID:** Full ACID compliance with advanced features
 **Scaling:** Advanced partitioning and replication options
+
+### 🔗 **Quick Navigation**
+Jump directly to any database type:
+- [🏠 Local Storage](#local-storage) - NASA-grade file storage
+- [🗄️ SQLite3](#sqlite3) - Embedded SQL database  
+- [📄 LowDB](#lowdb) - Lightweight JSON database
+- [🍃 MongoDB](#mongodb) - Document NoSQL *(Coming Soon)*
+- [🐬 MySQL](#mysql) - Popular relational DB *(Coming Soon)*
+- [🐘 PostgreSQL](#postgresql) - Advanced SQL DB *(Coming Soon)*
 
 ---
 
