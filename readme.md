@@ -1,6 +1,6 @@
 # 🗄️ @fwd/database
 
-**The Everyman's Multi-Database Package** - Switch between SQL and local storage with zero migration headaches!
+**Multi-Database Package** - Switch between SQL and local storage with zero migration headaches!
 
 ![Cover](https://raw.githubusercontent.com/fwd/database/master/.github/banner.png)
 
@@ -13,6 +13,70 @@ Think of `@fwd/database` as your universal database adapter. Whether you're buil
 - 🔄 **Easy Migration** - Switch database types without changing your code
 - 🎯 **Simple Projects** - No complex setup, just works
 - 🚀 **Production Apps** - Battle-tested with multiple database engines
+
+---
+
+## 📚 Database Type Glossary
+
+### 🏠 **Local Storage**
+*File-based JSON storage with NASA-grade reliability*
+
+**What it is:** Individual JSON files for each record, stored in your project directory
+**Best for:** Development, prototyping, small projects, mission-critical space applications
+**Storage:** `./data/` directory with separate files per record
+**Performance:** Fast for small datasets, human-readable files
+**ACID:** Basic file-level consistency
+**Scaling:** Limited by file system performance
+
+### 🗄️ **SQLite3**
+*Embedded SQL database with full ACID compliance*
+
+**What it is:** Single-file SQL database with complete SQL support
+**Best for:** Production apps, desktop applications, embedded systems
+**Storage:** Single `.sqlite` file with relational tables
+**Performance:** Excellent for medium datasets, supports complex queries
+**ACID:** Full ACID compliance with transactions
+**Scaling:** Up to 281TB, handles concurrent reads well
+
+### 📄 **LowDB**
+*Lightweight JSON database with Lodash power*
+
+**What it is:** Single JSON file with Lodash-powered querying
+**Best for:** Simple projects, configuration storage, small datasets
+**Storage:** Single JSON file containing all data
+**Performance:** Fast for small datasets, simple queries
+**ACID:** Basic consistency, no transactions
+**Scaling:** Limited by single file size and memory
+
+### 🍃 **MongoDB** *(Coming Soon)*
+*Document-based NoSQL database*
+
+**What it is:** Distributed document database with flexible schemas
+**Best for:** Large-scale applications, complex data structures
+**Storage:** Distributed across multiple servers
+**Performance:** Excellent for large datasets, horizontal scaling
+**ACID:** Eventual consistency, limited transactions
+**Scaling:** Horizontal scaling across multiple servers
+
+### 🐬 **MySQL** *(Coming Soon)*
+*Popular relational database with enterprise features*
+
+**What it is:** Full-featured relational database management system
+**Best for:** Web applications, enterprise systems, high-traffic sites
+**Storage:** Server-based with multiple databases and tables
+**Performance:** Excellent for complex queries and large datasets
+**ACID:** Full ACID compliance with advanced features
+**Scaling:** Vertical and horizontal scaling options
+
+### 🐘 **PostgreSQL** *(Coming Soon)*
+*Advanced open-source relational database*
+
+**What it is:** Feature-rich SQL database with advanced data types
+**Best for:** Complex applications, data analytics, enterprise systems
+**Storage:** Server-based with advanced indexing and partitioning
+**Performance:** Excellent for complex queries and data analysis
+**ACID:** Full ACID compliance with advanced features
+**Scaling:** Advanced partitioning and replication options
 
 ---
 
